@@ -2,11 +2,16 @@ package no.acntech.project101.employee;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import java.time.LocalDate;
+
+import no.acntech.project101.company.Company;
 
 @Entity
 public class Employee {
@@ -24,6 +29,10 @@ public class Employee {
     @Column(name = "BIRTHDATE")
     private LocalDate dateOfBirth;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "COMPANY_ID")
+    private Company company;
+
     public Employee() {
         // Hibernate
     }
@@ -36,10 +45,6 @@ public class Employee {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -64,5 +69,13 @@ public class Employee {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(final Company company) {
+        this.company = company;
     }
 }
