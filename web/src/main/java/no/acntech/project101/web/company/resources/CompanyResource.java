@@ -72,6 +72,17 @@ public class CompanyResource {
         return ResponseEntity.created(uri).build();
     }
 
+    @PostMapping("{orgnr}")
+    public ResponseEntity createCompany(@PathVariable final String orgnr) {
+        final Company saved = companyService.save(orgnr);
+        final URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).build();
+    }
+
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void deleteCompany(@PathVariable final Long id) {

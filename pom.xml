@@ -20,6 +20,7 @@
         <module>domain</module>
         <module>service</module>
         <module>web</module>
+        <module>integration</module>
     </modules>
 
     <dependencyManagement>
@@ -32,6 +33,11 @@
             <dependency>
                 <groupId>no.acntech</groupId>
                 <artifactId>service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.acntech</groupId>
+                <artifactId>integration</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
