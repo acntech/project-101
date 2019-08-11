@@ -1,14 +1,23 @@
-import React, { Component } from 'react';
-import CompanyCreate from './CompanyCreate';
-class CompanyList extends Component {
+import React, {Component} from 'react';
+import CreateCompanyModal from '../containers/CreateCompanyModal';
+import EditCompanyModal from "../containers/EditCompanyModal";
+import DeleteButton from '../containers/DeleteButton';
+
+class CompanyListPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             companies: []
         };
+
+        this.apiDeleteCompany = this.apiDeleteCompany.bind(this);
     }
 
     componentDidMount() {
+        this.apiGetCompanies();
+    }
+
+    apiGetCompanies() {
         const companies = [
             {
                 id: 1,
@@ -26,7 +35,11 @@ class CompanyList extends Component {
                 companyName: 'Accenture Trondheim'
             }
         ];
-        this.setState({ companies: companies });
+        this.setState({companies: companies});
+    }
+
+    apiDeleteCompany(id) {
+        console.log('Delete company called, id: ' + id);
     }
 
     render() {
@@ -39,8 +52,12 @@ class CompanyList extends Component {
                     <td>{company.orgNr}</td>
                     <td>{company.companyName}</td>
                     <td className="table-buttons">
-                        <button type="button" className="btn btn-primary">View</button>
-                        <button type="button" className="btn btn-danger">Delete</button>
+                        <EditCompanyModal id={company.id}/>
+                        <DeleteButton
+                            title="Delete company"
+                            text="Are you sure you want to delete this company?"
+                            id={company.id}
+                            onYes={this.apiDeleteCompany}/>
                     </td>
                 </tr>
             );
@@ -51,9 +68,7 @@ class CompanyList extends Component {
                 <div className="card-body">
                     <h3 className="card-title">List of companies</h3>
                     <div className="card-action">
-                        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#companyCreateModal">
-                            Create new
-                        </button>
+                        <CreateCompanyModal/>
                     </div>
                     <div className="card-text">
                         <table className="table table-striped table-dark">
@@ -71,10 +86,9 @@ class CompanyList extends Component {
                         </table>
                     </div>
                 </div>
-                <CompanyCreate/>
             </div>
         );
     }
 }
 
-export default CompanyList;
+export default CompanyListPage;

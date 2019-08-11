@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class EmployeeShow extends Component {
+class EditEmployeeModal extends Component {
     render() {
         return (
             <h1>Employee John Bar</h1>
@@ -8,4 +8,4 @@ class EmployeeShow extends Component {
     }
 }
 
-export default EmployeeShow;
+export default EditEmployeeModal;

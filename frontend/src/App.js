@@ -1,12 +1,8 @@
-import React, { Component } from 'react';
-import EmployeeList from './pages/EmployeeList';
-import EmployeeShow from './pages/EmployeeShow';
-import EmployeeCreate from './pages/EmployeeCreate';
-import CompanyList from './pages/CompanyList';
-import CompanyShow from './pages/CompanyShow';
-import CompanyCreate from './pages/CompanyCreate';
-import NavigationAppBar from './containers/NavigationAppBar';
-import { Route, Switch } from 'react-router-dom';
+import React, {Component} from 'react';
+import EmployeeListPage from './pages/EmployeeListPage';
+import CompanyListPage from './pages/CompanyListPage';
+import NavigationAppBar from './components/NavigationAppBar';
+import {Route, Switch} from 'react-router-dom';
 import NotFound from './pages/NotFound';
 import './styles/styles.css';
 
@@ -14,16 +10,12 @@ class App extends Component {
     render() {
         return (
             <div>
-                <NavigationAppBar />
+                <NavigationAppBar/>
                 <main role="main" className="container">
                     <Switch>
-                        <Route exact path="/employees" component={EmployeeList} />
-                        <Route exact path="/employees/create" component={EmployeeCreate} />
-                        <Route exact path="/employees/:id" component={EmployeeShow} />
-                        <Route exact path="/companies" component={CompanyList} />
-                        <Route exact path="/companies/create" component={CompanyCreate} />
-                        <Route exact path="/companies/:id" component={CompanyShow} />
-                        <Route component={NotFound} />
+                        <Route path="/employees" component={EmployeeListPage}/>
+                        <Route path="/companies" component={CompanyListPage}/>
+                        <Route component={NotFound}/>
                     </Switch>
                 </main>
             </div>
