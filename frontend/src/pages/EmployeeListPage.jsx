@@ -3,6 +3,7 @@ import { Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
 import CreateEmployeeModal from '../containers/CreateEmployeeModal';
 import DeleteButton from '../containers/DeleteButton';
 import EditEmployeeModal from '../containers/EditEmployeeModal';
+import { FaUserTie } from 'react-icons/fa';
 
 class EmployeeListPage extends Component {
     constructor(props) {
@@ -71,7 +72,7 @@ class EmployeeListPage extends Component {
         return (
             <Card color="white" className="shadow p-3 mb-5 rounded">
                 <CardBody>
-                    <CardTitle tag="h3">List of employees</CardTitle>
+                    <CardTitle tag="h3"><FaUserTie /> List of employees</CardTitle>
                     <div className="card-action">
                         <CreateEmployeeModal />
                     </div>

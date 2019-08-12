@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import PropTypes from 'prop-types';
+import { FaEdit } from 'react-icons/fa';
 
 class EditCompanyModal extends Component {
     constructor(props) {
@@ -54,7 +55,7 @@ class EditCompanyModal extends Component {
     render() {
         return (
             <>
-                <Button color="primary" onClick={this.toggle} size="sm">Edit</Button>
+                <Button color="primary" onClick={this.toggle} size="sm"><FaEdit/></Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Edit {this.state.companyName}</ModalHeader>
                     <ModalBody>

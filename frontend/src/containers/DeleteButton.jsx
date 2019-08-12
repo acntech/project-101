@@ -1,6 +1,7 @@
 import React from 'react';
-import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { FaTrashAlt } from 'react-icons/fa';
 
 class DeleteButton extends React.Component {
     constructor(props) {
@@ -49,7 +50,7 @@ class DeleteButton extends React.Component {
     render() {
         return (
             <>
-                <Button color="danger" size={this.state.size} onClick={this.toggle}>Delete</Button>
+                <Button color="danger" size={this.state.size} onClick={this.toggle}><FaTrashAlt /></Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>{this.state.title}</ModalHeader>
                     <ModalBody>
@@ -61,7 +62,7 @@ class DeleteButton extends React.Component {
                     </ModalFooter>
                 </Modal>
             </>
-        )
+        );
     }
 
 }
@@ -71,7 +72,7 @@ DeleteButton.propTypes = {
     title: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     onYes: PropTypes.func,
-    onNo: PropTypes.func,
+    onNo: PropTypes.func
 };
 
 export default DeleteButton;

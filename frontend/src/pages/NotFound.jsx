@@ -1,11 +1,12 @@
 import React from 'react';
-import { Alert } from 'reactstrap';
+import { FaDog } from 'react-icons/fa';
 
 function NotFound() {
     return (
-        <Alert color="danger">
-            <h1>Whoops, we can´t find this page</h1>
-        </Alert>
+        <div style={{ textAlign: 'center' }}>
+            <h1>Woof woof, we can´t find this page</h1>
+            <FaDog size="10em" />
+        </div>
     );
 }
 

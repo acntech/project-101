@@ -9,7 +9,7 @@ import FrontPage from './pages/FrontPage';
 
 function App() {
     return (
-        <div>
+        <>
             <NavigationAppBar />
             <main role="main" className="container">
                 <Switch>
@@ -19,7 +19,7 @@ function App() {
                     <Route component={NotFound} />
                 </Switch>
             </main>
-        </div>
+        </>
     );
 }
 

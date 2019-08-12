@@ -3,6 +3,7 @@ import CreateCompanyModal from '../containers/CreateCompanyModal';
 import EditCompanyModal from '../containers/EditCompanyModal';
 import DeleteButton from '../containers/DeleteButton';
 import { Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
+import { FaBuilding } from 'react-icons/fa';
 
 class CompanyListPage extends Component {
     constructor(props) {
@@ -67,7 +68,7 @@ class CompanyListPage extends Component {
         return (
             <Card color="white" className="shadow p-3 mb-5 rounded">
                 <CardBody>
-                    <CardTitle tag="h3">List of companies</CardTitle>
+                    <CardTitle tag="h3"><FaBuilding /> List of companies</CardTitle>
                     <div className="card-action">
                         <CreateCompanyModal />
                     </div>

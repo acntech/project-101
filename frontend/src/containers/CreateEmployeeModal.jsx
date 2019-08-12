@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { FaPlus } from 'react-icons/fa';
 
 class CreateEmployeeModal extends Component {
     constructor(props) {
@@ -36,7 +37,7 @@ class CreateEmployeeModal extends Component {
     render() {
         return (
             <>
-                <Button color="primary" onClick={this.toggle}>Create new employee</Button>
+                <Button color="primary" onClick={this.toggle}><FaPlus /> New employee</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Create new employee</ModalHeader>
                     <ModalBody>

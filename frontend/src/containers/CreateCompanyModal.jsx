@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import {Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
+import React, { Component } from 'react';
+import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { FaPlus } from 'react-icons/fa';
 
 class CreateCompanyModal extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class CreateCompanyModal extends Component {
     handleChange(event) {
         const name = event.target.name;
         const value = event.target.value;
-        this.setState({[name]: value});
+        this.setState({ [ name ]: value });
     }
 
     toggle() {
@@ -35,7 +36,7 @@ class CreateCompanyModal extends Component {
     render() {
         return (
             <>
-                <Button color="primary" onClick={this.toggle}>Create new company</Button>
+                <Button color="primary" onClick={this.toggle}><FaPlus /> New company</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Create new company</ModalHeader>
                     <ModalBody>
@@ -48,7 +49,7 @@ class CreateCompanyModal extends Component {
                                     id="orgNr"
                                     placeholder="Valid orgNr, 9 digits"
                                     value={this.state.orgNr}
-                                    onChange={this.handleChange}/>
+                                    onChange={this.handleChange} />
                             </FormGroup>
                             <FormGroup>
                                 <Label for="orgNr">Name</Label>
@@ -58,7 +59,7 @@ class CreateCompanyModal extends Component {
                                     id="companyName"
                                     placeholder="Fancy name of your company"
                                     value={this.state.companyName}
-                                    onChange={this.handleChange}/>
+                                    onChange={this.handleChange} />
                                 <FormText color="muted">
                                     If you leave this field empty we will lookup company with orgNr in Brreg
                                 </FormText>

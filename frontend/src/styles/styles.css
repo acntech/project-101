@@ -2,6 +2,10 @@ body {
     padding-top: 2rem;
 }
 
+html, body, #root, main {
+    height: 100%;
+}
+
 .container {
     padding: 3rem 1.5rem;
 }
