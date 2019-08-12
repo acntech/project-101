@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import CreateCompanyModal from '../containers/CreateCompanyModal';
-import EditCompanyModal from "../containers/EditCompanyModal";
+import EditCompanyModal from '../containers/EditCompanyModal';
 import DeleteButton from '../containers/DeleteButton';
+import { Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
 
 class CompanyListPage extends Component {
     constructor(props) {
@@ -35,7 +36,7 @@ class CompanyListPage extends Component {
                 companyName: 'Accenture Trondheim'
             }
         ];
-        this.setState({companies: companies});
+        this.setState({ companies: companies });
     }
 
     apiDeleteCompany(id) {
@@ -52,27 +53,27 @@ class CompanyListPage extends Component {
                     <td>{company.orgNr}</td>
                     <td>{company.companyName}</td>
                     <td className="table-buttons">
-                        <EditCompanyModal id={company.id}/>
+                        <EditCompanyModal id={company.id} />
                         <DeleteButton
                             title="Delete company"
                             text="Are you sure you want to delete this company?"
                             id={company.id}
-                            onYes={this.apiDeleteCompany}/>
+                            onYes={this.apiDeleteCompany} />
                     </td>
                 </tr>
             );
         });
 
         return (
-            <div className="card shadow p-3 mb-5 bg-white rounded">
-                <div className="card-body">
-                    <h3 className="card-title">List of companies</h3>
+            <Card color="white" className="shadow p-3 mb-5 rounded">
+                <CardBody>
+                    <CardTitle tag="h3">List of companies</CardTitle>
                     <div className="card-action">
-                        <CreateCompanyModal/>
+                        <CreateCompanyModal />
                     </div>
-                    <div className="card-text">
-                        <table className="table table-striped table-dark">
-                            <thead className="thead-dark">
+                    <CardText tag="div">
+                        <Table dark striped>
+                            <thead>
                                 <tr>
                                     <th scope="col">Id</th>
                                     <th scope="col">Orgnr</th>
@@ -83,10 +84,10 @@ class CompanyListPage extends Component {
                             <tbody>
                                 {companiesRows}
                             </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                        </Table>
+                    </CardText>
+                </CardBody>
+            </Card>
         );
     }
 }

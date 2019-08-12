@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
+import CreateEmployeeModal from '../containers/CreateEmployeeModal';
+import DeleteButton from '../containers/DeleteButton';
+import EditEmployeeModal from '../containers/EditEmployeeModal';
 
 class EmployeeListPage extends Component {
     constructor(props) {
@@ -7,9 +10,15 @@ class EmployeeListPage extends Component {
         this.state = {
             employees: []
         };
+
+        this.apiDeleteEmployee = this.apiDeleteEmployee.bind(this);
     }
 
     componentDidMount() {
+        this.apiGetEmployees();
+    }
+
+    apiGetEmployees() {
         const employees = [
             {
                 id: 1,
@@ -33,6 +42,10 @@ class EmployeeListPage extends Component {
         this.setState({ employees: employees });
     }
 
+    apiDeleteEmployee(id) {
+        console.log('Delete employee called, id: ' + id);
+    }
+
     render() {
         const employees = this.state.employees;
         let employeeRows = [];
@@ -44,23 +57,27 @@ class EmployeeListPage extends Component {
                     <td>{employee.lastName}</td>
                     <td>{employee.dateOfBirth}</td>
                     <td className="table-buttons">
-                        <button type="button" className="btn btn-primary">View</button>
-                        <button type="button" className="btn btn-danger">Delete</button>
+                        <EditEmployeeModal id={employee.id} />
+                        <DeleteButton
+                            title="Delete employee"
+                            text="Are you sure you want to delete this employee?"
+                            id={employee.id}
+                            onYes={this.apiDeleteEmployee} />
                     </td>
                 </tr>
             );
         });
 
         return (
-            <div className="card shadow p-3 mb-5 bg-white rounded">
-                <div className="card-body">
-                    <h3 className="card-title">List of employees</h3>
+            <Card color="white" className="shadow p-3 mb-5 rounded">
+                <CardBody>
+                    <CardTitle tag="h3">List of employees</CardTitle>
                     <div className="card-action">
-                        <Link to="/employees/create" className="btn btn-primary">Create new</Link>
+                        <CreateEmployeeModal />
                     </div>
-                    <div className="card-text">
-                        <table className="table table-striped table-dark">
-                            <thead className="thead-dark">
+                    <CardText tag="div">
+                        <Table dark striped>
+                            <thead>
                                 <tr>
                                     <th scope="col">Id</th>
                                     <th scope="col">Firstname</th>
@@ -72,10 +89,10 @@ class EmployeeListPage extends Component {
                             <tbody>
                                 {employeeRows}
                             </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                        </Table>
+                    </CardText>
+                </CardBody>
+            </Card>
         );
     }
 }

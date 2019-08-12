@@ -29,8 +29,11 @@ class EditCompanyModal extends Component {
         }));
     }
 
-    componentDidMount() {
-        this.apiGetCompany(this.props.id);
+    componentDidUpdate(prevProps, prevState) {
+        // Only get data from server when the modal content is actually visible
+        if (this.state.modal !== prevState.modal && this.state.modal) {
+            this.apiGetCompany(this.props.id);
+        }
     }
 
     apiGetCompany(id) {
