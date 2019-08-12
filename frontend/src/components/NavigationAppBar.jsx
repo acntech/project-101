@@ -1,27 +1,47 @@
-import React from 'react';
-import {Link, NavLink} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link, NavLink as RouterNavLink } from 'react-router-dom';
+import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 
-function NavigationAppBar() {
-    return (
-        <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <Link to="/" className="navbar-brand">Project-101</Link>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
+class NavigationAppBar extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            collapsed: true
+        };
 
-            <div className="collapse navbar-collapse" id="navbarsExampleDefault">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <NavLink to="/employees" className="nav-link">Employees</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink to="/companies" className="nav-link">Companies</NavLink>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    );
+        this.toggleNavbar = this.toggleNavbar.bind(this);
+    }
+
+    toggleNavbar() {
+        this.setState({
+            collapsed: !this.state.collapsed
+        });
+    }
+
+    render() {
+        return (
+            <Navbar color="dark" dark expand="md" fixed="top">
+                <NavbarBrand>
+                    <Link to="/" className="navbar-brand">Project-101</Link>
+                </NavbarBrand>
+                <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
+                <Collapse isOpen={!this.state.collapsed} navbar>
+                    <Nav navbar>
+                        <NavItem>
+                            <NavLink>
+                                <RouterNavLink to="/employees/" className="nav-link">Employees</RouterNavLink>
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink>
+                                <RouterNavLink to="/companies/" className="nav-link">Companies</RouterNavLink>
+                            </NavLink>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
+            </Navbar>
+        );
+    }
 }
 
 export default NavigationAppBar;
