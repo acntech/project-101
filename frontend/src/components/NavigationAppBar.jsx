@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, NavLink as RouterNavLink } from 'react-router-dom';
-import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Nav, Navbar, NavbarToggler, NavItem } from 'reactstrap';
 
 class NavigationAppBar extends Component {
     constructor(props) {
@@ -21,21 +21,15 @@ class NavigationAppBar extends Component {
     render() {
         return (
             <Navbar color="dark" dark expand="md" fixed="top">
-                <NavbarBrand>
-                    <Link to="/" className="navbar-brand">Project-101</Link>
-                </NavbarBrand>
+                <Link to="/" className="navbar-brand">Project-101</Link>
                 <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
                 <Collapse isOpen={!this.state.collapsed} navbar>
                     <Nav navbar>
                         <NavItem>
-                            <NavLink>
-                                <RouterNavLink to="/employees/" className="nav-link">Employees</RouterNavLink>
-                            </NavLink>
+                            <RouterNavLink to="/employees/" className="nav-link">Employees</RouterNavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink>
-                                <RouterNavLink to="/companies/" className="nav-link">Companies</RouterNavLink>
-                            </NavLink>
+                            <RouterNavLink to="/companies/" className="nav-link">Companies</RouterNavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>
