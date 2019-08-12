@@ -46,6 +46,7 @@ class CompanyListPage extends Component {
 
     render() {
         const companies = this.state.companies;
+
         let companiesRows = [];
         companies.map((company) => {
             return companiesRows.push(
@@ -65,6 +66,26 @@ class CompanyListPage extends Component {
             );
         });
 
+        const companiesTable = (
+            <Table dark striped>
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Orgnr</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {companiesRows}
+                </tbody>
+            </Table>
+        );
+
+        const emptyTable = (
+            <p>No companies yet, use button above to add one!</p>
+        );
+
         return (
             <Card color="white" className="shadow p-3 mb-5 rounded">
                 <CardBody>
@@ -73,19 +94,7 @@ class CompanyListPage extends Component {
                         <CreateCompanyModal />
                     </div>
                     <CardText tag="div">
-                        <Table dark striped>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Orgnr</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {companiesRows}
-                            </tbody>
-                        </Table>
+                        {companies.length > 0 ? companiesTable : emptyTable}
                     </CardText>
                 </CardBody>
             </Card>

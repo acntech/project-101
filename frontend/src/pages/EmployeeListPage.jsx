@@ -49,6 +49,7 @@ class EmployeeListPage extends Component {
 
     render() {
         const employees = this.state.employees;
+
         let employeeRows = [];
         employees.map((employee) => {
             return employeeRows.push(
@@ -69,6 +70,27 @@ class EmployeeListPage extends Component {
             );
         });
 
+        const employeesTable = (
+            <Table dark striped>
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Firstname</th>
+                        <th scope="col">Lastname</th>
+                        <th scope="col">Date of birth</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {employeeRows}
+                </tbody>
+            </Table>
+        );
+
+        const emptyTable = (
+            <p>No employees yet, use button above to add one!</p>
+        );
+
         return (
             <Card color="white" className="shadow p-3 mb-5 rounded">
                 <CardBody>
@@ -77,20 +99,7 @@ class EmployeeListPage extends Component {
                         <CreateEmployeeModal />
                     </div>
                     <CardText tag="div">
-                        <Table dark striped>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Firstname</th>
-                                    <th scope="col">Lastname</th>
-                                    <th scope="col">Date of birth</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {employeeRows}
-                            </tbody>
-                        </Table>
+                        {employees.length > 0 ? employeesTable : emptyTable}
                     </CardText>
                 </CardBody>
             </Card>
