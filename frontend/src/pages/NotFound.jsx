@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Alert } from 'reactstrap';
 
-class NotFound extends Component {
-    render() {
-        return (
-            <h1>Not found</h1>
-        );
-    }
+function NotFound() {
+    return (
+        <Alert color="danger">
+            <h1>Whoops, we can´t find this page</h1>
+        </Alert>
+    );
 }
 
 export default NotFound;
