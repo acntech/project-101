@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
+import React, { Component } from 'react';
+import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { FaEdit } from 'react-icons/fa';
 
@@ -21,7 +21,7 @@ class EditCompanyModal extends Component {
     handleChange(event) {
         const name = event.target.name;
         const value = event.target.value;
-        this.setState({[name]: value});
+        this.setState({ [ name ]: value });
     }
 
     toggle() {
@@ -44,7 +44,7 @@ class EditCompanyModal extends Component {
                 orgNr: '12343459',
                 companyName: 'My company'
             }
-        )
+        );
     }
 
     apiEditCompany() {
@@ -55,7 +55,7 @@ class EditCompanyModal extends Component {
     render() {
         return (
             <>
-                <Button color="primary" onClick={this.toggle} size="sm"><FaEdit/></Button>
+                <Button color="primary" onClick={this.toggle} size="sm"><FaEdit /></Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Edit {this.state.companyName}</ModalHeader>
                     <ModalBody>
@@ -67,7 +67,7 @@ class EditCompanyModal extends Component {
                                     name="id"
                                     id="id"
                                     value={this.state.id}
-                                    disabled/>
+                                    disabled />
                             </FormGroup>
                             <FormGroup>
                                 <Label for="orgNr">Orgnr</Label>
@@ -77,7 +77,7 @@ class EditCompanyModal extends Component {
                                     id="orgNr"
                                     placeholder="Valid orgNr, 9 digits"
                                     value={this.state.orgNr}
-                                    onChange={this.handleChange}/>
+                                    onChange={this.handleChange} />
                             </FormGroup>
                             <FormGroup>
                                 <Label for="companyName">Name</Label>
@@ -87,7 +87,7 @@ class EditCompanyModal extends Component {
                                     id="companyName"
                                     placeholder="Fancy name of your company"
                                     value={this.state.companyName}
-                                    onChange={this.handleChange}/>
+                                    onChange={this.handleChange} />
                                 <FormText color="muted">
                                     If you leave this field empty we will lookup company with orgNr in Brreg
                                 </FormText>
