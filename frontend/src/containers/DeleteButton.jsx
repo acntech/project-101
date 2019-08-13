@@ -51,7 +51,7 @@ class DeleteButton extends React.Component {
         return (
             <>
                 <Button color="danger" size={this.state.size} onClick={this.toggle}><FaTrashAlt /></Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>{this.state.title}</ModalHeader>
                     <ModalBody>
                         {this.state.text}

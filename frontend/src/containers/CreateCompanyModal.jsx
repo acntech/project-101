@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { FaPlus } from 'react-icons/fa';
+import CompaniesApi from '../services/CompaniesApi';
+import PropTypes from 'prop-types';
 
 class CreateCompanyModal extends Component {
     constructor(props) {
@@ -28,8 +30,23 @@ class CreateCompanyModal extends Component {
         }));
     }
 
-    apiCreateCompany() {
-        console.log('Create new company clicked');
+    async apiCreateCompany() {
+        const company = {
+            orgNr: this.state.orgNr,
+            companyName: this.state.companyName
+        };
+
+        if (company.companyName) {
+            await CompaniesApi.createNewCompany(company);
+        } else {
+            await CompaniesApi.createNewCompanyByOrgnr(company.orgNr);
+        }
+
+        // Inform parent component that new company has been created, if onCreated() defined in props
+        if (typeof this.props.onCreated === 'function') {
+            this.props.onCreated();
+        }
+
         this.toggle();
     }
 
@@ -37,7 +54,7 @@ class CreateCompanyModal extends Component {
         return (
             <>
                 <Button color="primary" onClick={this.toggle}><FaPlus /> New company</Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Create new company</ModalHeader>
                     <ModalBody>
                         <Form>
@@ -75,5 +92,9 @@ class CreateCompanyModal extends Component {
         );
     }
 }
+
+CreateCompanyModal.propTypes = {
+    onCreated: PropTypes.func
+};
 
 export default CreateCompanyModal;

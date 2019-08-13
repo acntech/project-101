@@ -4,6 +4,7 @@ import EditCompanyModal from '../containers/EditCompanyModal';
 import DeleteButton from '../containers/DeleteButton';
 import { Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
 import { FaBuilding } from 'react-icons/fa';
+import CompaniesApi from '../services/CompaniesApi';
 
 class CompanyListPage extends Component {
     constructor(props) {
@@ -13,35 +14,23 @@ class CompanyListPage extends Component {
         };
 
         this.apiDeleteCompany = this.apiDeleteCompany.bind(this);
+        this.apiReadAllCompanies = this.apiReadAllCompanies.bind(this);
     }
 
     componentDidMount() {
-        this.apiGetCompanies();
+        this.apiReadAllCompanies();
     }
 
-    apiGetCompanies() {
-        const companies = [
-            {
-                id: 1,
-                orgNr: 123456789,
-                companyName: 'Accenture Oslo'
-            },
-            {
-                id: 2,
-                orgNr: 123456789,
-                companyName: 'Accenture Bergen'
-            },
-            {
-                id: 3,
-                orgNr: 123456789,
-                companyName: 'Accenture Trondheim'
-            }
-        ];
+    async apiReadAllCompanies() {
+        const companies = await CompaniesApi.readAllCompanies();
         this.setState({ companies: companies });
     }
 
-    apiDeleteCompany(id) {
-        console.log('Delete company called, id: ' + id);
+    async apiDeleteCompany(id) {
+        await CompaniesApi.deleteCompanyById(id);
+
+        // Retrieve refreshed list of companies from the server
+        this.apiReadAllCompanies();
     }
 
     render() {
@@ -55,7 +44,9 @@ class CompanyListPage extends Component {
                     <td>{company.orgNr}</td>
                     <td>{company.companyName}</td>
                     <td className="table-buttons">
-                        <EditCompanyModal id={company.id} />
+                        <EditCompanyModal
+                            id={company.id}
+                            onEdited={this.apiReadAllCompanies} />
                         <DeleteButton
                             title="Delete company"
                             text="Are you sure you want to delete this company?"
@@ -91,7 +82,7 @@ class CompanyListPage extends Component {
                 <CardBody>
                     <CardTitle tag="h3"><FaBuilding /> List of companies</CardTitle>
                     <div className="card-action">
-                        <CreateCompanyModal />
+                        <CreateCompanyModal onCreated={this.apiReadAllCompanies} />
                     </div>
                     <CardText tag="div">
                         {companies.length > 0 ? companiesTable : emptyTable}

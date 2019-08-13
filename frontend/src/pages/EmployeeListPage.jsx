@@ -4,6 +4,7 @@ import CreateEmployeeModal from '../containers/CreateEmployeeModal';
 import DeleteButton from '../containers/DeleteButton';
 import EditEmployeeModal from '../containers/EditEmployeeModal';
 import { FaUserTie } from 'react-icons/fa';
+import EmployeesApi from '../services/EmployeesApi';
 
 class EmployeeListPage extends Component {
     constructor(props) {
@@ -13,38 +14,23 @@ class EmployeeListPage extends Component {
         };
 
         this.apiDeleteEmployee = this.apiDeleteEmployee.bind(this);
+        this.apiReadAllEmployees = this.apiReadAllEmployees.bind(this);
     }
 
     componentDidMount() {
-        this.apiGetEmployees();
+        this.apiReadAllEmployees();
     }
 
-    apiGetEmployees() {
-        const employees = [
-            {
-                id: 1,
-                firstName: 'Ismar',
-                lastName: 'Slomic',
-                dateOfBirth: '1984-05-07'
-            },
-            {
-                id: 2,
-                firstName: 'Ola',
-                lastName: 'Nordmann',
-                dateOfBirth: '1993-02-15'
-            },
-            {
-                id: 3,
-                firstName: 'Kari',
-                lastName: 'Nordmann',
-                dateOfBirth: '1990-12-24'
-            }
-        ];
+    async apiReadAllEmployees() {
+        const employees = await EmployeesApi.readAllEmployees();
         this.setState({ employees: employees });
     }
 
-    apiDeleteEmployee(id) {
-        console.log('Delete employee called, id: ' + id);
+    async apiDeleteEmployee(id) {
+        await EmployeesApi.deleteEmployeeById(id);
+
+        // Retrieve refreshed list of employees from the server
+        this.apiReadAllEmployees();
     }
 
     render() {
@@ -59,7 +45,9 @@ class EmployeeListPage extends Component {
                     <td>{employee.lastName}</td>
                     <td>{employee.dateOfBirth}</td>
                     <td className="table-buttons">
-                        <EditEmployeeModal id={employee.id} />
+                        <EditEmployeeModal
+                            id={employee.id}
+                            onEdited={this.apiReadAllEmployees} />
                         <DeleteButton
                             title="Delete employee"
                             text="Are you sure you want to delete this employee?"
@@ -96,7 +84,7 @@ class EmployeeListPage extends Component {
                 <CardBody>
                     <CardTitle tag="h3"><FaUserTie /> List of employees</CardTitle>
                     <div className="card-action">
-                        <CreateEmployeeModal />
+                        <CreateEmployeeModal onCreated={this.apiReadAllEmployees} />
                     </div>
                     <CardText tag="div">
                         {employees.length > 0 ? employeesTable : emptyTable}

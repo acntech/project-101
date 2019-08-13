@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { FaEdit } from 'react-icons/fa';
+import EmployeesApi from '../services/EmployeesApi';
+import PropTypes from 'prop-types';
 
 class EditEmployeeModal extends Component {
     constructor(props) {
@@ -15,7 +17,7 @@ class EditEmployeeModal extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.toggle = this.toggle.bind(this);
-        this.apiEditEmployee = this.apiEditEmployee.bind(this);
+        this.apiUpdateEmployee = this.apiUpdateEmployee.bind(this);
     }
 
     handleChange(event) {
@@ -33,23 +35,35 @@ class EditEmployeeModal extends Component {
     componentDidUpdate(prevProps, prevState) {
         // Only get data from server when the modal content is actually visible
         if (this.state.modal !== prevState.modal && this.state.modal) {
-            this.apiGetEmployee(this.props.id);
+            this.apiReadEmployee(this.props.id);
         }
     }
 
-    apiGetEmployee(id) {
-        console.log('Get employee');
+    async apiReadEmployee(id) {
+        const employee = await EmployeesApi.readEmployeeById(id);
         this.setState({
-                id: id,
-                firstName: 'Ola',
-                lastName: 'Nordmann',
-                dateOfBirth: '1990-03-21'
+                id: employee.id,
+                firstName: employee.firstName,
+                lastName: employee.lastName,
+                dateOfBirth: employee.dateOfBirth
             }
         );
     }
 
-    apiEditEmployee() {
-        console.log('Edit employee clicked');
+    async apiUpdateEmployee() {
+        const employee = {
+            id: this.state.id,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            dateOfBirth: this.state.dateOfBirth
+        };
+        await EmployeesApi.updateEmployee(employee);
+
+        // Inform parent component that existing employee has been edited, if onEdited() defined in props
+        if (typeof this.props.onEdited === 'function') {
+            this.props.onEdited();
+        }
+
         this.toggle();
     }
 
@@ -57,7 +71,7 @@ class EditEmployeeModal extends Component {
         return (
             <>
                 <Button color="primary" onClick={this.toggle} size="sm"><FaEdit /></Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Edit {this.state.firstName} {this.state.lastName}</ModalHeader>
                     <ModalBody>
                         <Form>
@@ -103,12 +117,17 @@ class EditEmployeeModal extends Component {
                     </ModalBody>
                     <ModalFooter>
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                        <Button color="primary" onClick={this.apiEditEmployee}>Save changes</Button>
+                        <Button color="primary" onClick={this.apiUpdateEmployee}>Save changes</Button>
                     </ModalFooter>
                 </Modal>
             </>
         );
     }
 }
+
+EditEmployeeModal.propTypes = {
+    id: PropTypes.number.isRequired,
+    onEdited: PropTypes.func
+};
 
 export default EditEmployeeModal;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { FaEdit } from 'react-icons/fa';
+import CompaniesApi from '../services/CompaniesApi';
 
 class EditCompanyModal extends Component {
     constructor(props) {
@@ -15,7 +16,7 @@ class EditCompanyModal extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.toggle = this.toggle.bind(this);
-        this.apiEditCompany = this.apiEditCompany.bind(this);
+        this.apiUpdateCompany = this.apiUpdateCompany.bind(this);
     }
 
     handleChange(event) {
@@ -33,22 +34,33 @@ class EditCompanyModal extends Component {
     componentDidUpdate(prevProps, prevState) {
         // Only get data from server when the modal content is actually visible
         if (this.state.modal !== prevState.modal && this.state.modal) {
-            this.apiGetCompany(this.props.id);
+            this.apiReadCompany(this.props.id);
         }
     }
 
-    apiGetCompany(id) {
-        console.log('Get company');
+    async apiReadCompany(id) {
+        const company = await CompaniesApi.readCompanyById(id);
         this.setState({
-                id: id,
-                orgNr: '12343459',
-                companyName: 'My company'
+                id: company.id,
+                orgNr: company.orgNr,
+                companyName: company.companyName
             }
         );
     }
 
-    apiEditCompany() {
-        console.log('Edit company clicked');
+    async apiUpdateCompany() {
+        const company = {
+            id: this.state.id,
+            orgNr: this.state.orgNr,
+            companyName: this.state.companyName
+        };
+        await CompaniesApi.updateCompany(company);
+
+        // Inform parent component that existing company has been edited, if onEdited() defined in props
+        if (typeof this.props.onEdited === 'function') {
+            this.props.onEdited();
+        }
+
         this.toggle();
     }
 
@@ -56,7 +68,7 @@ class EditCompanyModal extends Component {
         return (
             <>
                 <Button color="primary" onClick={this.toggle} size="sm"><FaEdit /></Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Edit {this.state.companyName}</ModalHeader>
                     <ModalBody>
                         <Form>
@@ -96,7 +108,7 @@ class EditCompanyModal extends Component {
                     </ModalBody>
                     <ModalFooter>
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                        <Button color="primary" onClick={this.apiEditCompany}>Save changes</Button>
+                        <Button color="primary" onClick={this.apiUpdateCompany}>Save changes</Button>
                     </ModalFooter>
                 </Modal>
             </>
@@ -105,7 +117,8 @@ class EditCompanyModal extends Component {
 }
 
 EditCompanyModal.propTypes = {
-    id: PropTypes.number.isRequired
+    id: PropTypes.number.isRequired,
+    onEdited: PropTypes.func
 };
 
 export default EditCompanyModal;

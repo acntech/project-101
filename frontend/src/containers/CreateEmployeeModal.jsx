@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { FaPlus } from 'react-icons/fa';
+import EmployeesApi from '../services/EmployeesApi';
+import PropTypes from 'prop-types';
 
 class CreateEmployeeModal extends Component {
     constructor(props) {
@@ -29,8 +31,19 @@ class CreateEmployeeModal extends Component {
         }));
     }
 
-    apiCreateEmployee() {
-        console.log('Create new employee clicked');
+    async apiCreateEmployee() {
+        const employee = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            dateOfBirth: this.state.dateOfBirth
+        };
+        await EmployeesApi.createNewEmployee(employee);
+
+        // Inform parent component that new employee has been created, if onCreated() defined in props
+        if (typeof this.props.onCreated === 'function') {
+            this.props.onCreated();
+        }
+
         this.toggle();
     }
 
@@ -38,7 +51,7 @@ class CreateEmployeeModal extends Component {
         return (
             <>
                 <Button color="primary" onClick={this.toggle}><FaPlus /> New employee</Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Create new employee</ModalHeader>
                     <ModalBody>
                         <Form>
@@ -82,5 +95,9 @@ class CreateEmployeeModal extends Component {
         );
     }
 }
+
+CreateEmployeeModal.propTypes = {
+    onCreated: PropTypes.func
+};
 
 export default CreateEmployeeModal;
