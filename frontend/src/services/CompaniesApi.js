@@ -27,7 +27,11 @@ class CompaniesApi {
             });
     }
 
-    updateCompany(company) {
+    updateCompany(id, company) {
+        return this.apiClient.patch('/' + id, company)
+            .then((response) => {
+                return response.data;
+            });
     }
 
     deleteCompanyById(id) {

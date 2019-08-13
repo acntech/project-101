@@ -54,7 +54,7 @@ class EditCompanyModal extends Component {
             orgNr: this.state.orgNr,
             companyName: this.state.companyName
         };
-        await CompaniesApi.updateCompany(company);
+        await CompaniesApi.updateCompany(company.id, company);
 
         // Inform parent component that existing company has been edited, if onEdited() defined in props
         if (typeof this.props.onEdited === 'function') {

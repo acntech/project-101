@@ -23,8 +23,8 @@ class EmployeesApi {
             });
     }
 
-    updateEmployee(employee) {
-        return this.apiClient.patch('', employee)
+    updateEmployee(id, employee) {
+        return this.apiClient.patch('/' + id, employee)
             .then((response) => {
                 return response.data;
             });

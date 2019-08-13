@@ -57,7 +57,7 @@ class EditEmployeeModal extends Component {
             lastName: this.state.lastName,
             dateOfBirth: this.state.dateOfBirth
         };
-        await EmployeesApi.updateEmployee(employee);
+        await EmployeesApi.updateEmployee(employee.id, employee);
 
         // Inform parent component that existing employee has been edited, if onEdited() defined in props
         if (typeof this.props.onEdited === 'function') {

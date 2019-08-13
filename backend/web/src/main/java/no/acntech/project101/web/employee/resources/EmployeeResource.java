@@ -85,13 +85,9 @@ public class EmployeeResource {
         }
     }
 
-    @PatchMapping
-    public ResponseEntity updateEmployee(@RequestBody final EmployeeDto employeeDto) {
-        if(employeeDto.getId() == null){
-            return ResponseEntity.notFound().build();
-        }
-
-        final Optional<Employee> optionalEmployee = employeeService.findById(employeeDto.getId());
+    @PatchMapping("{id}")
+    public ResponseEntity updateEmployee(@PathVariable final Long id, @RequestBody final EmployeeDto employeeDto) {
+        final Optional<Employee> optionalEmployee = employeeService.findById(id);
 
         if (optionalEmployee.isPresent()) {
             Employee existingEmployee = optionalEmployee.get();
