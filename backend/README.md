@@ -25,6 +25,7 @@ Base Url: `http://localhost:8080`
 - `GET /employees` - read all employees, returns `200` and array of employees
 - `GET /employees/{id}` - read employee by id, returns `200` if found, otherwise `404` not found
 - `POST /employees` - create new employee by request body, returns `201` if created, otherwise `500` internal server error
+- `PATCH /employees` - update existing employee by request body, returns `200` if updated, `404` if not found, otherwise `500` internal server error
 - `DELETE /employees/{id}` - delete employee by id, returns `202` if deleted, otherwise `404` if not found
 
 # Testing APIs with Postman

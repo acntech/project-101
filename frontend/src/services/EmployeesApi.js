@@ -24,6 +24,10 @@ class EmployeesApi {
     }
 
     updateEmployee(employee) {
+        return this.apiClient.patch('', employee)
+            .then((response) => {
+                return response.data;
+            });
     }
 
     deleteEmployeeById(id) {
