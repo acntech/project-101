@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import no.acntech.project101.employee.service.EmployeeService;
 import no.acntech.project101.web.employee.resources.converter.EmployeeConverter;
 import no.acntech.project101.web.employee.resources.converter.EmployeeDtoConverter;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("employees")
 public class EmployeeResource {

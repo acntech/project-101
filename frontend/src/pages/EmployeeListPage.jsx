@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
 import CreateEmployeeModal from '../containers/CreateEmployeeModal';
 import DeleteButton from '../containers/DeleteButton';
 import EditEmployeeModal from '../containers/EditEmployeeModal';
-import { FaUserTie } from 'react-icons/fa';
+import { FaSyncAlt, FaUserTie } from 'react-icons/fa';
 import EmployeesApi from '../services/EmployeesApi';
 
 class EmployeeListPage extends Component {
@@ -84,6 +84,7 @@ class EmployeeListPage extends Component {
                 <CardBody>
                     <CardTitle tag="h3"><FaUserTie /> List of employees</CardTitle>
                     <div className="card-action">
+                        <Button color="secondary" onClick={this.apiReadAllEmployees}><FaSyncAlt /></Button> {' '}
                         <CreateEmployeeModal onCreated={this.apiReadAllEmployees} />
                     </div>
                     <CardText tag="div">

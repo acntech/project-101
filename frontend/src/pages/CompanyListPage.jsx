@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import CreateCompanyModal from '../containers/CreateCompanyModal';
 import EditCompanyModal from '../containers/EditCompanyModal';
 import DeleteButton from '../containers/DeleteButton';
-import { Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
-import { FaBuilding } from 'react-icons/fa';
+import { Button, Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
+import { FaBuilding, FaSyncAlt } from 'react-icons/fa';
 import CompaniesApi from '../services/CompaniesApi';
 
 class CompanyListPage extends Component {
@@ -82,6 +82,7 @@ class CompanyListPage extends Component {
                 <CardBody>
                     <CardTitle tag="h3"><FaBuilding /> List of companies</CardTitle>
                     <div className="card-action">
+                        <Button color="secondary" onClick={this.apiReadAllCompanies}><FaSyncAlt /></Button> {' '}
                         <CreateCompanyModal onCreated={this.apiReadAllCompanies} />
                     </div>
                     <CardText tag="div">
