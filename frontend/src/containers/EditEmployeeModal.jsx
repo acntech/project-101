@@ -131,16 +131,6 @@ class EditEmployeeModal extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <Label for="companySelect">Company</Label>
-                                <Input type="select" name="select" id="companySelect">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="companySelect">Company</Label>
                                 <Input
                                     type="select"
                                     name="companyId"

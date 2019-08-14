@@ -44,6 +44,7 @@ class EmployeeListPage extends Component {
                     <td>{employee.firstName}</td>
                     <td>{employee.lastName}</td>
                     <td>{employee.dateOfBirth}</td>
+                    <td>{employee.companyId}</td>
                     <td className="table-buttons">
                         <EditEmployeeModal
                             id={employee.id}
@@ -66,6 +67,7 @@ class EmployeeListPage extends Component {
                         <th scope="col">Firstname</th>
                         <th scope="col">Lastname</th>
                         <th scope="col">Date of birth</th>
+                        <th scope="col">Company ID</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
