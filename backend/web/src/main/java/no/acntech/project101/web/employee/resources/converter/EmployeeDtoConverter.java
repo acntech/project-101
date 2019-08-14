@@ -11,7 +11,7 @@ public class EmployeeDtoConverter implements Converter<Employee, EmployeeDto> {
 
     @Override
     public EmployeeDto convert(final Employee source) {
-        return new EmployeeDto(source.getId(), source.getFirstName(), source.getLastName(), source.getDateOfBirth());
+        return new EmployeeDto(source.getId(), source.getFirstName(), source.getLastName(), source.getDateOfBirth(), source.getCompany().getId());
     }
 
 }

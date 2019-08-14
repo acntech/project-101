@@ -49,7 +49,7 @@ class CompanyListPage extends Component {
                             onEdited={this.apiReadAllCompanies} />
                         <DeleteButton
                             title="Delete company"
-                            text="Are you sure you want to delete this company?"
+                            text="Are you sure you want to delete this company? All connected employees will be deleted as well!"
                             id={company.id}
                             onYes={this.apiDeleteCompany} />
                     </td>

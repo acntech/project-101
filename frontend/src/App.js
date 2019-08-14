@@ -18,7 +18,6 @@ class App extends Component {
 
     componentDidMount() {
         window.onunhandledrejection = (err) => {
-            console.log(err);
             this.setState((state) => {
                 const unhandledPromiseRejections = [ ...state.unhandledPromiseRejections, err.reason ];
 
@@ -37,7 +36,7 @@ class App extends Component {
                 <UncontrolledAlert key={index} color="danger">
                     <h4 className="alert-heading">{rejection.message}</h4>
                     <hr />
-                    <p className="mb-0">{rejection.stack}</p>
+                    <p className="mb-0">{rejection.response ? rejection.response.data.message : ''}</p>
                 </UncontrolledAlert>
             );
         });

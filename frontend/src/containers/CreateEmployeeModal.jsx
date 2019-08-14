@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, M
 import { FaPlus } from 'react-icons/fa';
 import EmployeesApi from '../services/EmployeesApi';
 import PropTypes from 'prop-types';
+import CompaniesApi from '../services/CompaniesApi';
 
 class CreateEmployeeModal extends Component {
     constructor(props) {
@@ -11,6 +12,8 @@ class CreateEmployeeModal extends Component {
             firstName: '',
             lastName: '',
             dateOfBirth: '',
+            companyId: '',
+            companies: [],
             modal: false
         };
 
@@ -31,11 +34,16 @@ class CreateEmployeeModal extends Component {
         }));
     }
 
+    componentDidMount() {
+        this.apiReadAllCompanies();
+    }
+
     async apiCreateEmployee() {
         const employee = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
-            dateOfBirth: this.state.dateOfBirth
+            dateOfBirth: this.state.dateOfBirth,
+            companyId: this.state.companyId
         };
         await EmployeesApi.createNewEmployee(employee);
 
@@ -47,7 +55,17 @@ class CreateEmployeeModal extends Component {
         this.toggle();
     }
 
+    async apiReadAllCompanies() {
+        const companies = await CompaniesApi.readAllCompanies();
+        this.setState({ companies: companies });
+    }
+
     render() {
+        const companiesSelectOptions = this.state.companies.map((company) => {
+            return (
+                <option key={company.id} value={company.id}>{company.companyName}</option>
+            );
+        });
         return (
             <>
                 <Button color="primary" onClick={this.toggle}><FaPlus /> New employee</Button>
@@ -84,11 +102,23 @@ class CreateEmployeeModal extends Component {
                                     value={this.state.dateOfBirth}
                                     onChange={this.handleChange} />
                             </FormGroup>
+                            <FormGroup>
+                                <Label for="companySelect">Company</Label>
+                                <Input
+                                    type="select"
+                                    name="companyId"
+                                    id="companySelect"
+                                    onChange={this.handleChange}
+                                >
+                                    <option key="-1" value="">Select company</option>
+                                    {companiesSelectOptions}
+                                </Input>
+                            </FormGroup>
                         </Form>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                        <Button color="primary" onClick={this.apiCreateEmployee}>Create</Button>
+                        <Button color="primary" onClick={this.apiCreateEmployee} disabled={!this.state.companyId}>Create</Button>
                     </ModalFooter>
                 </Modal>
             </>

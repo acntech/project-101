@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, M
 import { FaEdit } from 'react-icons/fa';
 import EmployeesApi from '../services/EmployeesApi';
 import PropTypes from 'prop-types';
+import CompaniesApi from '../services/CompaniesApi';
 
 class EditEmployeeModal extends Component {
     constructor(props) {
@@ -12,6 +13,8 @@ class EditEmployeeModal extends Component {
             firstName: '',
             lastName: '',
             dateOfBirth: '',
+            companyId: '',
+            companies: [],
             modal: false
         };
 
@@ -36,6 +39,7 @@ class EditEmployeeModal extends Component {
         // Only get data from server when the modal content is actually visible
         if (this.state.modal !== prevState.modal && this.state.modal) {
             this.apiReadEmployee(this.props.id);
+            this.apiReadAllCompanies();
         }
     }
 
@@ -45,9 +49,15 @@ class EditEmployeeModal extends Component {
                 id: employee.id,
                 firstName: employee.firstName,
                 lastName: employee.lastName,
-                dateOfBirth: employee.dateOfBirth
+                dateOfBirth: employee.dateOfBirth,
+                companyId: employee.companyId
             }
         );
+    }
+
+    async apiReadAllCompanies() {
+        const companies = await CompaniesApi.readAllCompanies();
+        this.setState({ companies: companies });
     }
 
     async apiUpdateEmployee() {
@@ -55,7 +65,8 @@ class EditEmployeeModal extends Component {
             id: this.state.id,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
-            dateOfBirth: this.state.dateOfBirth
+            dateOfBirth: this.state.dateOfBirth,
+            companyId: this.state.companyId
         };
         await EmployeesApi.updateEmployee(employee.id, employee);
 
@@ -68,6 +79,11 @@ class EditEmployeeModal extends Component {
     }
 
     render() {
+        const companiesSelectOptions = this.state.companies.map((company) => {
+            return (
+                <option key={company.id} value={company.id}>{company.companyName}</option>
+            );
+        });
         return (
             <>
                 <Button color="primary" onClick={this.toggle} size="sm"><FaEdit /></Button>
@@ -113,11 +129,34 @@ class EditEmployeeModal extends Component {
                                     value={this.state.dateOfBirth}
                                     onChange={this.handleChange} />
                             </FormGroup>
+                            <FormGroup>
+                                <Label for="companySelect">Company</Label>
+                                <Input type="select" name="select" id="companySelect">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="companySelect">Company</Label>
+                                <Input
+                                    type="select"
+                                    name="companyId"
+                                    id="companySelect"
+                                    onChange={this.handleChange}
+                                    value={this.state.companyId}
+                                >
+                                    <option key="-1" value="">Select company</option>
+                                    {companiesSelectOptions}
+                                </Input>
+                            </FormGroup>
                         </Form>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                        <Button color="primary" onClick={this.apiUpdateEmployee}>Save changes</Button>
+                        <Button color="primary" onClick={this.apiUpdateEmployee} disabled={!this.state.companyId}>Save changes</Button>
                     </ModalFooter>
                 </Modal>
             </>
