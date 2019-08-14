@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Ola\",\n    \"lastName\": \"Nordmann\",\n    \"dateOfBirth\": \"1994-08-20\"\n}"
+					"raw": "{\n    \"firstName\": \"Ola\",\n    \"lastName\": \"Nordmann\",\n    \"dateOfBirth\": \"1994-08-20\",\n    \"companyId\": 1\n}"
 				},
 				"url": {
 					"raw": "{{baseUrl}}/employees",
@@ -28,6 +28,35 @@
 					],
 					"path": [
 						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update employee",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Nora\",\n    \"lastName\": \"Nordmann\",\n    \"dateOfBirth\": \"1994-08-20\",\n    \"companyId\": 1\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/employees/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"employees",
+						"1"
 					]
 				}
 			},
