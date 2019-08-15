@@ -1,6 +1,10 @@
 # Project-101 frontend
 Frontend provides UI and consumes REST APIs from backend application
 
+# Prerequisites
+### `npm install`
+Install required npm dependencies (must be run before `npm start`, `npm test` and `npm run build`)
+
 # Getting started
 
 ### `npm start`
