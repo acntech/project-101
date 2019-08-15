@@ -1,0 +1,24 @@
+body {
+    padding-top: 2rem;
+}
+
+html, body, #root, main {
+    height: 100%;
+}
+
+.container {
+    padding: 3rem 1.5rem;
+}
+
+td.table-buttons > button {
+    margin-right: 0.5rem;
+}
+
+.card-action {
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+td, th {
+    vertical-align: middle !important;
+}

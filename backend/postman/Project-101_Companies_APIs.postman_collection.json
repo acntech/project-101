@@ -52,6 +52,35 @@
 			"response": []
 		},
 		{
+			"name": "Update company",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"companyName\": \"MY UPDATED COMPANY\",\n    \"orgNr\": \"123456789\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/companies/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"companies",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Read all companies",
 			"request": {
 				"method": "GET",

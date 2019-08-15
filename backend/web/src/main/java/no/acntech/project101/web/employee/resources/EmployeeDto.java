@@ -16,12 +16,15 @@ public class EmployeeDto {
     private String lastName;
     @NotNull
     private LocalDate dateOfBirth;
+    @NotNull
+    private Long companyId;
 
-    public EmployeeDto(final Long id, final String firstName, final String lastName, final LocalDate dateOfBirth) {
+    public EmployeeDto(final Long id, final String firstName, final String lastName, final LocalDate dateOfBirth, final Long companyId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+        this.companyId = companyId;
     }
 
     public Long getId() {
@@ -38,5 +41,9 @@ public class EmployeeDto {
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
     }
 }
