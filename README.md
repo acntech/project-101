@@ -4,3 +4,9 @@ This repository consists of two applications for Company / Employee solution:
 1. [backend](backend) - REST APIs providing CRUD operations for frontend, implemented with Java and Spring Framework
 
 Make sure you read the respective README files in each folder to get started. 
+
+# Screenshots
+#### Companies
+![Companies screenshot](companies-screenshot.png)
+#### Employees
+![Employees screenshot](employees-screenshot.png)
