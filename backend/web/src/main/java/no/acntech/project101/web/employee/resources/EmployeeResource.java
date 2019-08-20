@@ -87,9 +87,9 @@ public class EmployeeResource {
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteEmployee(@PathVariable final Long id) {
-        final Optional<Employee> company = employeeService.findById(id);
+        final Optional<Employee> employee = employeeService.findById(id);
 
-        if (company.isPresent()) {
+        if (employee.isPresent()) {
             employeeService.delete(id);
             return ResponseEntity.accepted().build();
         } else {
