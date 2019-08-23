@@ -15,13 +15,6 @@ class CompanyTest {
     private static final String ORG_NR = "123456789";
 
     @Test
-    void getCompanyName() {
-        Company company = new Company(COMPANY_NAME, ORG_NR);
-        String result = company.getCompanyName();
-        assertThat(result).isEqualTo(COMPANY_NAME);
-    }
-
-    @Test
     void setCompanyName() {
         Company company = new Company();
         company.setCompanyName(COMPANY_NAME);
@@ -30,30 +23,10 @@ class CompanyTest {
     }
 
     @Test
-    void getOrgNr() {
-        Company company = new Company(COMPANY_NAME, ORG_NR);
-        String result = company.getOrgNr();
-        assertThat(result).isEqualTo(ORG_NR);
-    }
-
-    @Test
     void setOrgNr() {
         Company company = new Company();
         company.setOrgNr(ORG_NR);
         assertThat(company.getOrgNr()).isEqualTo(ORG_NR);
-    }
-
-    @Test
-    void getEmployees() {
-        Company company = new Company();
-        List<Employee> employees = getEmployeeList();
-        company.setEmployees(employees);
-
-        List<Employee> result = company.getEmployees();
-        for (Employee e : employees) {
-            assertThat(result).contains(e);
-        }
-        assertThat(result).hasSize(employees.size());
     }
 
     @Test
@@ -66,7 +39,7 @@ class CompanyTest {
         for (Employee e : employees) {
             assertThat(result).contains(e);
         }
-        assertThat(result).hasSize(employees.size());
+        assertThat(result).hasSize(employees.size()).containsAll(employees);
     }
 
     private List<Employee> getEmployeeList() {
