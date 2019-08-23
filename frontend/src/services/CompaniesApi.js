@@ -1,41 +1,42 @@
-import axios from 'axios';
-
 class CompaniesApi {
-    apiClient = axios.create({
-        baseURL: 'http://localhost:8080/companies'
-    });
+    constructor() {
+        this.baseUrl = 'http://localhost:8080/companies/';
+        this.headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+    }
 
     createNewCompany(company) {
-        return this.apiClient.post('', company);
+        return fetch(this.baseUrl, { method: 'POST', body: JSON.stringify(company), headers: this.headers });
     }
 
     createNewCompanyByOrgnr(orgnr) {
-        return this.apiClient.post('/' + orgnr);
+        return fetch(this.baseUrl + orgnr, { method: 'POST', headers: this.headers });
     }
 
     readAllCompanies() {
-        return this.apiClient.get('')
+        return fetch(this.baseUrl)
             .then((response) => {
-                return response.data;
+                return response.json();
             });
     }
 
     readCompanyById(id) {
-        return this.apiClient.get('/' + id)
+        return fetch(this.baseUrl + id)
             .then((response) => {
-                return response.data;
+                return response.json();
             });
     }
 
     updateCompany(id, company) {
-        return this.apiClient.patch('/' + id, company)
+        return fetch(this.baseUrl + id, { method: 'PATCH', body: JSON.stringify(company), headers: this.headers })
             .then((response) => {
-                return response.data;
+                return response.json();
             });
     }
 
     deleteCompanyById(id) {
-        return this.apiClient.delete('/' + id);
+        return fetch(this.baseUrl + id, { method: 'DELETE', headers: this.headers });
     }
 }
 

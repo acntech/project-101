@@ -1,37 +1,38 @@
-import axios from 'axios';
-
 class EmployeesApi {
-    apiClient = axios.create({
-        baseURL: 'http://localhost:8080/employees'
-    });
+    constructor() {
+        this.baseUrl = 'http://localhost:8080/employees/';
+        this.headers = new Headers({
+            'Content-Type': 'application/json'
+        });
+    }
 
     createNewEmployee(employee) {
-        return this.apiClient.post('', employee);
+        return fetch(this.baseUrl, { method: 'POST', body: JSON.stringify(employee), headers: this.headers });
     }
 
     readAllEmployees() {
-        return this.apiClient.get('')
+        return fetch(this.baseUrl)
             .then((response) => {
-                return response.data;
+                return response.json();
             });
     }
 
     readEmployeeById(id) {
-        return this.apiClient.get('/' + id)
+        return fetch(this.baseUrl + id)
             .then((response) => {
-                return response.data;
+                return response.json();
             });
     }
 
     updateEmployee(id, employee) {
-        return this.apiClient.patch('/' + id, employee)
+        return fetch(this.baseUrl + id, { method: 'PATCH', body: JSON.stringify(employee), headers: this.headers })
             .then((response) => {
-                return response.data;
+                return response.json();
             });
     }
 
     deleteEmployeeById(id) {
-        return this.apiClient.delete('/' + id);
+        return fetch(this.baseUrl + id, { method: 'DELETE', headers: this.headers });
     }
 }
 
