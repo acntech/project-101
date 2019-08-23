@@ -10,25 +10,19 @@ class EmployeesApi {
         return fetch(this.baseUrl, { method: 'POST', body: JSON.stringify(employee), headers: this.headers });
     }
 
-    readAllEmployees() {
-        return fetch(this.baseUrl)
-            .then((response) => {
-                return response.json();
-            });
+    async readAllEmployees() {
+        const response = await fetch(this.baseUrl);
+        return await response.json();
     }
 
-    readEmployeeById(id) {
-        return fetch(this.baseUrl + id)
-            .then((response) => {
-                return response.json();
-            });
+    async readEmployeeById(id) {
+        const response = await fetch(this.baseUrl + id);
+        return await response.json();
     }
 
-    updateEmployee(id, employee) {
-        return fetch(this.baseUrl + id, { method: 'PATCH', body: JSON.stringify(employee), headers: this.headers })
-            .then((response) => {
-                return response.json();
-            });
+    async updateEmployee(id, employee) {
+        const response = await fetch(this.baseUrl + id, { method: 'PATCH', body: JSON.stringify(employee), headers: this.headers });
+        return await response.json();
     }
 
     deleteEmployeeById(id) {

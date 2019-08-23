@@ -14,25 +14,19 @@ class CompaniesApi {
         return fetch(this.baseUrl + orgnr, { method: 'POST', headers: this.headers });
     }
 
-    readAllCompanies() {
-        return fetch(this.baseUrl)
-            .then((response) => {
-                return response.json();
-            });
+    async readAllCompanies() {
+        const response = await fetch(this.baseUrl);
+        return await response.json();
     }
 
-    readCompanyById(id) {
-        return fetch(this.baseUrl + id)
-            .then((response) => {
-                return response.json();
-            });
+    async readCompanyById(id) {
+        const response = await fetch(this.baseUrl + id);
+        return await response.json();
     }
 
-    updateCompany(id, company) {
-        return fetch(this.baseUrl + id, { method: 'PATCH', body: JSON.stringify(company), headers: this.headers })
-            .then((response) => {
-                return response.json();
-            });
+    async updateCompany(id, company) {
+        const response = await fetch(this.baseUrl + id, { method: 'PATCH', body: JSON.stringify(company), headers: this.headers });
+        return await response.json();
     }
 
     deleteCompanyById(id) {
