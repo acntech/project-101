@@ -1,16 +1,10 @@
 package no.acntech.project101.company;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import java.util.List;
-
-import no.acntech.project101.employee.Employee;
 
 @Entity
 public class Company {
@@ -25,8 +19,8 @@ public class Company {
     @Column(name = "ORG_NR")
     private String orgNr;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    List<Employee> employees;
+
+    //TODO add mapping for list of employees if you have time
 
     public Company() {
     }
@@ -57,11 +51,4 @@ public class Company {
         this.orgNr = orgNr;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(final List<Employee> employees) {
-        this.employees = employees;
-    }
 }

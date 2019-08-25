@@ -23,6 +23,7 @@ class CompanyRepositoryTest {
     void save() {
         final Company company = new Company("CompanyName", "123456789");
         final Company savedCompany = companyRepository.save(company);
+        assertThat(savedCompany.getId()).isNotNull();
         assertThat(savedCompany.getCompanyName()).isEqualTo(company.getCompanyName());
         assertThat(savedCompany.getOrgNr()).isEqualTo(company.getOrgNr());
     }

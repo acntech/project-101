@@ -1,11 +1,10 @@
-package no.acntech.project101.web.employee.resources;
+/** TODO when everything is done, this test can test your employee endpoints. It will probably not compile due to naming. Fix as needed
+ * package no.acntech.project101.web.employee.resources;
 
-import no.acntech.project101.Project101Application;
-import no.acntech.project101.company.Company;
-import no.acntech.project101.company.service.CompanyService;
-import no.acntech.project101.employee.Employee;
-import no.acntech.project101.employee.service.EmployeeService;
-import no.acntech.project101.web.TestUtil;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,12 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
+import no.acntech.project101.Project101Application;
+import no.acntech.project101.company.Company;
+import no.acntech.project101.company.service.CompanyService;
+import no.acntech.project101.employee.Employee;
+import no.acntech.project101.employee.service.EmployeeService;
+import no.acntech.project101.web.TestUtil;
+import no.acntech.project101.web.employee.resources.EmployeeDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,7 +44,6 @@ class EmployeeResourceIT {
 
     @Autowired
     private CompanyService companyService;
-
 
     @Test
     void findAll() {
@@ -126,3 +132,4 @@ class EmployeeResourceIT {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
     }
 }
+*/

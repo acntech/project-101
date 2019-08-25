@@ -1,10 +1,16 @@
-package no.acntech.project101.web.employee.resources;
+/** TODO If you have time to implement support for connecting an employee to a company
+ *  TODO then you can use this test. probably need to change something to make it compile...
+*/package no.acntech.project101.web.employee.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import no.acntech.project101.company.Company;
 import no.acntech.project101.company.service.CompanyService;
 import no.acntech.project101.employee.Employee;
 import no.acntech.project101.employee.service.EmployeeService;
+import no.acntech.project101.web.employee.resources.EmployeeDto;
+import no.acntech.project101.web.employee.resources.EmployeeResource;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +27,12 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.lenient;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = EmployeeResource.class)
+@Disabled // TODO Remove this to run the tests. This annotation diables the tests
 class EmployeeResourceTest {
 
     @Autowired
@@ -43,11 +50,11 @@ class EmployeeResourceTest {
     @Test
     void findAll() throws Exception {
         final Company company = new Company("ACME", "123456789");
-        final Employee ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
-        final Employee tor = new Employee("Tor", "Divel", LocalDate.of(1994, 10, 1));
-        ken.setCompany(company);
-        tor.setCompany(company);
-        when(employeeService.findAll()).thenReturn(Arrays.asList(ken, tor));
+        final Employee ken = new Employee();
+        final Employee tor = new Employee();
+//        ken.setCompany(company);
+//        tor.setCompany(company);
+        lenient().when(employeeService.findAll()).thenReturn(Arrays.asList(ken, tor));
 
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/employees")
@@ -58,9 +65,9 @@ class EmployeeResourceTest {
 
     @Test
     void findById() throws Exception {
-        final Employee ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
-        ken.setCompany(new Company("ACME", "123456789"));
-        when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(ken));
+        final Employee ken = new Employee();
+//        ken.setCompany(new Company("ACME", "123456789"));
+        lenient().when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(ken));
 
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/employees/{id}", 1)
@@ -72,11 +79,11 @@ class EmployeeResourceTest {
     @Test
     void createEmployee() throws Exception {
         final EmployeeDto employeeDto = new EmployeeDto(1L, "Ken", "Guru", LocalDate.of(1994, 10, 1), 1L);
-        final Employee ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        final Employee ken = new Employee();
         final Company company = new Company("ACME", "123456789");
 
-        when(employeeService.save(any(Employee.class))).thenReturn(ken);
-        when(companyService.findById(anyLong())).thenReturn(Optional.of(company));
+        lenient().when(employeeService.save(any(Employee.class))).thenReturn(ken);
+        lenient().when(companyService.findById(anyLong())).thenReturn(Optional.of(company));
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/employees")
@@ -88,8 +95,8 @@ class EmployeeResourceTest {
 
     @Test
     void deleteEmployee() throws Exception {
-        final Employee ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
-        when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(ken));
+        final Employee ken = new Employee();
+        lenient().when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(ken));
 
         mockMvc.perform(MockMvcRequestBuilders
                 .delete("/employees/{id}", 1)
@@ -100,12 +107,12 @@ class EmployeeResourceTest {
     @Test
     void updateEmployee() throws Exception {
         final EmployeeDto employeeDto = new EmployeeDto(1L, "Ken", "Guru", LocalDate.of(1994, 10, 1), 1L);
-        final Employee ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        final Employee ken = new Employee();
         final Company company = new Company("ACME", "123456789");
 
-        when(employeeService.findById(anyLong())).thenReturn(Optional.of(ken));
-        when(employeeService.save(any(Employee.class))).thenReturn(ken);
-        when(companyService.findById(anyLong())).thenReturn(Optional.of(company));
+        lenient().when(employeeService.findById(anyLong())).thenReturn(Optional.of(ken));
+        lenient().when(employeeService.save(any(Employee.class))).thenReturn(ken);
+        lenient().when(companyService.findById(anyLong())).thenReturn(Optional.of(company));
 
         mockMvc.perform(MockMvcRequestBuilders
                 .patch("/employees/{id}", 1)

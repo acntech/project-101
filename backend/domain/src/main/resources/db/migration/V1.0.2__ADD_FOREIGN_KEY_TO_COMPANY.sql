@@ -1,1 +1,1 @@
-ALTER TABLE EMPLOYEE ADD CONSTRAINT EMP_COMP_FK FOREIGN KEY (COMPANY_ID) references COMPANY (ID);
+-- TODO Add a foreign key column to employee-table refrencing company-table
