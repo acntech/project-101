@@ -6,12 +6,12 @@ class CompaniesApi {
         });
     }
 
-    createNewCompany(company) {
-        return fetch(this.baseUrl, { method: 'POST', body: JSON.stringify(company), headers: this.headers });
+    async createNewCompany(company) {
+        return await fetch(this.baseUrl, { method: 'POST', body: JSON.stringify(company), headers: this.headers });
     }
 
-    createNewCompanyByOrgnr(orgnr) {
-        return fetch(this.baseUrl + orgnr, { method: 'POST', headers: this.headers });
+    async createNewCompanyByOrgnr(orgnr) {
+        return await fetch(this.baseUrl + orgnr, { method: 'POST', headers: this.headers });
     }
 
     async readAllCompanies() {
@@ -29,8 +29,8 @@ class CompaniesApi {
         return await response.json();
     }
 
-    deleteCompanyById(id) {
-        return fetch(this.baseUrl + id, { method: 'DELETE', headers: this.headers });
+    async deleteCompanyById(id) {
+        return await fetch(this.baseUrl + id, { method: 'DELETE', headers: this.headers });
     }
 }
 

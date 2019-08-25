@@ -6,8 +6,8 @@ class EmployeesApi {
         });
     }
 
-    createNewEmployee(employee) {
-        return fetch(this.baseUrl, { method: 'POST', body: JSON.stringify(employee), headers: this.headers });
+    async createNewEmployee(employee) {
+        return await fetch(this.baseUrl, { method: 'POST', body: JSON.stringify(employee), headers: this.headers });
     }
 
     async readAllEmployees() {
@@ -25,8 +25,8 @@ class EmployeesApi {
         return await response.json();
     }
 
-    deleteEmployeeById(id) {
-        return fetch(this.baseUrl + id, { method: 'DELETE', headers: this.headers });
+    async deleteEmployeeById(id) {
+        return await fetch(this.baseUrl + id, { method: 'DELETE', headers: this.headers });
     }
 }
 
