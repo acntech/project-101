@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaDog } from 'react-icons/fa';
 
-function NotFound() {
+function NotFoundPage() {
     return (
         <div style={{ textAlign: 'center' }}>
             <h1>Woof woof, we can´t find this page</h1>
@@ -10,4 +10,4 @@ function NotFound() {
     );
 }
 
-export default NotFound;
+export default NotFoundPage;
