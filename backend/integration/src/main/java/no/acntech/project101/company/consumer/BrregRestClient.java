@@ -21,12 +21,16 @@ public class BrregRestClient {
     }
 
     public String lookupOrganizationName(final String organisasjonsnummer) {
-        final URI uri = UriComponentsBuilder
-                .fromUriString(url)
-                .buildAndExpand(organisasjonsnummer)
-                .toUri();
+        final URI uri = getUri(organisasjonsnummer);
 
         final BrregRespons brregRespons = restTemplate.getForEntity(uri, BrregRespons.class).getBody();
         return brregRespons.getData().getName();
+    }
+
+    private URI getUri(String organisasjonsnummer) {
+        return UriComponentsBuilder
+                .fromUriString(url)
+                .buildAndExpand(organisasjonsnummer)
+                .toUri();
     }
 }
