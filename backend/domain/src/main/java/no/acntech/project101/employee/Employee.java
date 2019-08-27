@@ -4,6 +4,8 @@ public class Employee {
 
     //TODO Create the enitity for Employee
 
+    private int id;
+
     public Employee() {
         // Hibernate
     }

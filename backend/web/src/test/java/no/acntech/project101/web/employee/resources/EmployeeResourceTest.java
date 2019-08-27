@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = EmployeeResource.class)
-@Disabled // TODO Remove this to run the tests. This annotation diables the tests
+//@Disabled // TODO Remove this to run the tests. This annotation diables the tests
 class EmployeeResourceTest {
 
     @Autowired
