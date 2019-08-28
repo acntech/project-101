@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import EmployeeListPage from './pages/EmployeeListPage';
 import CompanyListPage from './pages/CompanyListPage';
 import NavigationAppBar from './components/NavigationAppBar';
 import { Route, Switch } from 'react-router-dom';
@@ -48,7 +47,6 @@ class App extends Component {
                     {alerts}
                     <Switch>
                         <Route exact path="/" component={FrontPage} />
-                        <Route path="/employees" component={EmployeeListPage} />
                         <Route path="/companies" component={CompanyListPage} />
                         <Route component={NotFoundPage} />
                     </Switch>

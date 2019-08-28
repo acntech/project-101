@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Jumbotron } from 'reactstrap';
-import { FaBuilding, FaUserTie } from 'react-icons/fa';
+import { FaBuilding } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 function FrontPage() {
@@ -11,7 +11,6 @@ function FrontPage() {
             <hr className="my-2" />
             <p className="lead">
                 <Button tag={Link} color="primary" size="lg" to="/companies"><FaBuilding /> Companies</Button> {' '}
-                <Button tag={Link} color="primary" size="lg" to="/employees"><FaUserTie /> Employees</Button>
             </p>
         </Jumbotron>
     );
