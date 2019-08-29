@@ -30,9 +30,8 @@ class App extends Component {
 
     render() {
         const unhandledPromiseRejections = this.state.unhandledPromiseRejections;
-        let alerts = [];
-        unhandledPromiseRejections.map((rejection, index) => {
-            return alerts.push(
+        let alerts = unhandledPromiseRejections.map((rejection, index) => {
+            return (
                 <UncontrolledAlert key={index} color="danger">
                     <h4 className="alert-heading">{rejection.message}</h4>
                     <hr />
