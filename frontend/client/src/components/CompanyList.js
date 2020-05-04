@@ -36,7 +36,7 @@ export default class CompanyList extends Component {
                     </Row>
                 )}
                 <Row className='ml-2'>
-                    <Button variant="primary" onClick={() => this.setState({showForm: !this.state.showForm})}><FaPlus/>New Company</Button>
+                    <Button variant="primary" onClick={() => this.setState({showForm: !this.state.showForm})}><FaPlus/> New Company</Button>
                 </Row>
 
                 <Table striped bordered hover className='mt-2'>
