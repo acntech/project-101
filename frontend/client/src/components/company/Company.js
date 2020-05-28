@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button'
 import {FaPlus} from "react-icons/fa";
 
 
-export default class CompanyList extends Component {
+export default class Company extends Component {
     constructor(props) {
         super(props);
         this.state = {

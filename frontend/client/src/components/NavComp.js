@@ -10,6 +10,7 @@ class NavComp extends Component {
                     <Navbar.Brand href="/" to="/">Dashboard</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link ><Link to="companies">Company</Link></Nav.Link>
+                        <Nav.Link ><Link to="employees">Employee</Link></Nav.Link>
                     </Nav>
                 </Navbar>
         );
