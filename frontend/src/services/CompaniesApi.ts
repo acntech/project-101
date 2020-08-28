@@ -1,4 +1,8 @@
 class CompaniesApi {
+
+    private baseUrl: string;
+    private headers: Headers;
+
     constructor() {
         this.baseUrl = 'http://localhost:8080/companies/';
         this.headers = new Headers({
@@ -6,11 +10,11 @@ class CompaniesApi {
         });
     }
 
-    async createNewCompany(company) {
+    async createNewCompany(company: any) {
         return await fetch(this.baseUrl, { method: 'POST', body: JSON.stringify(company), headers: this.headers });
     }
 
-    async createNewCompanyByOrgnr(orgnr) {
+    async createNewCompanyByOrgnr(orgnr: any) {
         return await fetch(this.baseUrl + orgnr, { method: 'POST', headers: this.headers });
     }
 
@@ -19,17 +23,17 @@ class CompaniesApi {
         return await response.json();
     }
 
-    async readCompanyById(id) {
+    async readCompanyById(id: any) {
         const response = await fetch(this.baseUrl + id);
         return await response.json();
     }
 
-    async updateCompany(id, company) {
+    async updateCompany(id: any, company: any) {
         const response = await fetch(this.baseUrl + id, { method: 'PATCH', body: JSON.stringify(company), headers: this.headers });
         return await response.json();
     }
 
-    async deleteCompanyById(id) {
+    async deleteCompanyById(id: any) {
         return await fetch(this.baseUrl + id, { method: 'DELETE', headers: this.headers });
     }
 }

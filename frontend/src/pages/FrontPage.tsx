@@ -3,7 +3,7 @@ import { Button, Jumbotron } from 'reactstrap';
 import { FaBuilding } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-function FrontPage() {
+const FrontPage = () => {
     return (
         <Jumbotron>
             <h1 className="display-3">Hello, Project-101</h1>
@@ -16,4 +16,4 @@ function FrontPage() {
     );
 }
 
-export default FrontPage;
+export { FrontPage };

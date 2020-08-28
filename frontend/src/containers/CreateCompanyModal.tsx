@@ -2,10 +2,19 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { FaPlus } from 'react-icons/fa';
 import CompaniesApi from '../services/CompaniesApi';
-import PropTypes from 'prop-types';
 
-class CreateCompanyModal extends Component {
-    constructor(props) {
+interface Props {
+    onCreated?: () => void;
+}
+
+interface State {
+    orgNr: string;
+    companyName: string;
+    modal: boolean;
+}
+
+class CreateCompanyModal extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             orgNr: '',
@@ -13,15 +22,18 @@ class CreateCompanyModal extends Component {
             modal: false
         };
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleCompanyNameChange = this.handleCompanyNameChange.bind(this);
+        this.handleOrgNrChange = this.handleOrgNrChange.bind(this);
         this.toggle = this.toggle.bind(this);
         this.apiCreateCompany = this.apiCreateCompany.bind(this);
     }
 
-    handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
-        this.setState({ [ name ]: value });
+    handleCompanyNameChange(event: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({ companyName: event.target.value });
+    }
+
+    handleOrgNrChange(event: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({ orgNr: event.target.value });
     }
 
     toggle() {
@@ -66,7 +78,7 @@ class CreateCompanyModal extends Component {
                                     id="orgNr"
                                     placeholder="Valid orgNr, 9 digits"
                                     value={this.state.orgNr}
-                                    onChange={this.handleChange} />
+                                    onChange={this.handleOrgNrChange} />
                             </FormGroup>
                             <FormGroup>
                                 <Label for="orgNr">Name</Label>
@@ -76,7 +88,7 @@ class CreateCompanyModal extends Component {
                                     id="companyName"
                                     placeholder="Fancy name of your company"
                                     value={this.state.companyName}
-                                    onChange={this.handleChange} />
+                                    onChange={this.handleCompanyNameChange} />
                                 <FormText color="muted">
                                     If you leave this field empty we will lookup company with orgNr in Brreg
                                 </FormText>
@@ -93,8 +105,4 @@ class CreateCompanyModal extends Component {
     }
 }
 
-CreateCompanyModal.propTypes = {
-    onCreated: PropTypes.func
-};
-
-export default CreateCompanyModal;
+export { CreateCompanyModal };

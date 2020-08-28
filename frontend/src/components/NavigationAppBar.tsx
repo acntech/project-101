@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import { Link, NavLink as RouterNavLink } from 'react-router-dom';
 import { Collapse, Nav, Navbar, NavbarToggler, NavItem } from 'reactstrap';
 
-class NavigationAppBar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            collapsed: true
-        };
+interface State {
+    collapsed: boolean;
+}
 
-        this.toggleNavbar = this.toggleNavbar.bind(this);
-    }
+class NavigationAppBar extends Component<{}, State> {
+    state = {
+        collapsed: true
+    };
 
-    toggleNavbar() {
+    toggleNavbar = () => {
         this.setState({
             collapsed: !this.state.collapsed
         });
@@ -35,4 +34,4 @@ class NavigationAppBar extends Component {
     }
 }
 
-export default NavigationAppBar;
+export { NavigationAppBar };
