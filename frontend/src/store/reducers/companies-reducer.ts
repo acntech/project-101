@@ -1,15 +1,22 @@
+import {
+    CREATE_NEW_COMPANY, 
+    CREATE_NEW_COMPANY_BY_ORGNR,     
+    GET_ALL_COMPANIES,
+    GET_COMPANY_BY_ID,
+    UPDATE_COMPANY,
+    DELETE_COMPANY } from './../actions/companies-actions';
 import { CompanyActionType } from '../actions/companies-actions';
 import { CompaniesState, CompanyState } from '../../types/company';
 
 const initialCompaniesState: CompaniesState = [];
 
-export function companies (state = initialCompaniesState, action: CompanyActionType) {
+export function companies(state = initialCompaniesState, action: CompanyActionType) {
     switch (action.type) {
-        case 'CREATE_NEW_COMPANY':
+        case CREATE_NEW_COMPANY:
             return [...state, action.company];
-        case 'CREATE_NEW_COMPANY_BY_ORGNR':
+        case CREATE_NEW_COMPANY_BY_ORGNR:
             return [...state, action.company];
-        case "GET_ALL_COMPANIES": 
+        case GET_ALL_COMPANIES: 
             return [initialCompaniesState, action.companies];
         default:
             return state; 
@@ -22,13 +29,13 @@ const initialCompanyState: CompanyState = {
     orgNr: ''
 };
 
-export function company (state = initialCompanyState, action: CompanyActionType) {
+export function company(state = initialCompanyState, action: CompanyActionType) {
     switch (action.type) {
-        case "GET_COMPANY_BY_ID":
+        case GET_COMPANY_BY_ID:
             return {...state, ...action.company};
-        case "UPDATE_COMPANY":
+        case UPDATE_COMPANY:
             return {...state, ...action.company};
-        case "DELETE_COMPANY":
+        case DELETE_COMPANY:
             return state;
         default:
             return state;
