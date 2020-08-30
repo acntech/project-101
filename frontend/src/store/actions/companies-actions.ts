@@ -1,6 +1,7 @@
-import { post, get, patch, remove } from './api';
+import { ThunkAction } from 'redux-thunk';
 import { Company } from '../../types/company';
-import { Dispatch } from 'redux';
+import { RootStateType } from '../../types/store';
+import { get, patch, post, remove } from './api';
 
 export const CREATE_NEW_COMPANY = 'CREATE_NEW_COMPANY';
 export const CREATE_NEW_COMPANY_BY_ORGNR = 'CREATE_NEW_COMPANY_BY_ORGNR';
@@ -74,7 +75,7 @@ const deleteCompanySuccess = (id: string): DeleteCompanyAction => ({
     id
 });
 
-export const createNewCompany = (company: Company) => async (dispatch: Dispatch) => {
+export const createNewCompany = (company: Company): ThunkAction<Promise<Company>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
     try {
         const createdCompany = await post<Company>("/companies", company);
         dispatch(createCompanySuccess(createdCompany));
@@ -85,7 +86,7 @@ export const createNewCompany = (company: Company) => async (dispatch: Dispatch)
     }
 };
 
-export const createNewCompanyByOrgnr = (orgNr: string) => async (dispatch: Dispatch) => {
+export const createNewCompanyByOrgnr = (orgNr: string): ThunkAction<Promise<Company>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
     try {
         const createdCompany = await post<Company>(`/companies/${orgNr}`);
         dispatch(createCompanySuccess(createdCompany));
@@ -96,7 +97,7 @@ export const createNewCompanyByOrgnr = (orgNr: string) => async (dispatch: Dispa
     }
 };
 
-export const getCompanies = () => async (dispatch: Dispatch) => {
+export const getCompanies = (): ThunkAction<Promise<Company[]>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
     try {
         const companies = await get<Company[]>("/companies");
         dispatch(getCompaniesSuccess(companies));
@@ -107,7 +108,7 @@ export const getCompanies = () => async (dispatch: Dispatch) => {
     }
 };
 
-export const readCompanyById = (id: string) => async (dispatch: Dispatch) => {
+export const readCompanyById = (id: string): ThunkAction<Promise<Company>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
     try {
         const company = await get<Company>(`/companies/${id}`);
         dispatch(getCompanySuccess(company));
@@ -118,7 +119,7 @@ export const readCompanyById = (id: string) => async (dispatch: Dispatch) => {
     }
 };
 
-export const updateCompany = (id: string, company: Company) => async (dispatch: Dispatch) => {
+export const updateCompany = (id: string, company: Company): ThunkAction<Promise<Company>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
     try {
         const updatedCompany = await patch<Company>(`/companies/${id}`, company);
         dispatch(updateCompanySuccess(id, updatedCompany));
@@ -129,11 +130,11 @@ export const updateCompany = (id: string, company: Company) => async (dispatch: 
     }
 };
 
-export const deleteCompany = (id: string) => async (dispatch: Dispatch) => {
+export const deleteCompany = (id: string): ThunkAction<Promise<boolean>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
     try {
-        const deletedCompany = await remove<boolean>(`/companies/${id}`);
+        const isCompanyDeleted = await remove<boolean>(`/companies/${id}`);
         dispatch(deleteCompanySuccess(id));
-        return Promise.resolve(deletedCompany);
+        return Promise.resolve(isCompanyDeleted);
     } catch (err) {
         return Promise.reject(err);
     }

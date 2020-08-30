@@ -8,6 +8,7 @@ import { FaPlus } from 'react-icons/fa';
 
 import { createNewCompany, createNewCompanyByOrgnr } from '../store/actions/companies-actions';
 import { Company } from '../types/company';
+import { RootStateType } from '../types/store';
 
 interface OwnProps {
     onCreated?: () => void;
@@ -113,7 +114,7 @@ class CreateCompanyModal extends Component<Props, State> {
     }
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootStateType, undefined, AnyAction>) => ({
     createCompany: (company: Company) => dispatch(createNewCompany(company)),
     createCompanyByOrgNr: (orgNr: string) => dispatch(createNewCompanyByOrgnr(orgNr))
 });

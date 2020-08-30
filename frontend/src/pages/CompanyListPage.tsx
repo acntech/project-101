@@ -91,7 +91,7 @@ const mapStateToProps = (state: RootStateType) => ({
     companies: state.companies
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootStateType, undefined, AnyAction>) => ({
     getCompanies: () => dispatch(getCompanies()),
     removeCompany: (id: string) => dispatch(deleteCompany(id))
 });

@@ -8,6 +8,7 @@ import { FaEdit } from 'react-icons/fa';
 
 import { updateCompany, readCompanyById } from '../store/actions/companies-actions';
 import { Company } from '../types/company';
+import { RootStateType } from '../types/store';
 
 interface OwnProps {
     id: string;
@@ -138,7 +139,7 @@ class EditCompanyModal extends Component<Props, State> {
     }
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootStateType, undefined, AnyAction>) => ({
     getCompany: (id: string) => dispatch(readCompanyById(id)),
     updateCompany: (id: string, company: Company) => dispatch(updateCompany(id, company)),
 });
