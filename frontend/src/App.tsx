@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
-import CompanyListPage from './pages/CompanyListPage';
-import NavigationAppBar from './components/NavigationAppBar';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom';
-import NotFoundPage from './pages/NotFoundPage';
-import './styles/styles.css';
-import FrontPage from './pages/FrontPage';
 import { UncontrolledAlert } from 'reactstrap';
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            unhandledPromiseRejections: []
-        };
-    }
+import { CompanyListPage, FrontPage, NotFoundPage } from './pages';
+import { NavigationAppBar } from './components';
+
+import './styles/styles.css';
+
+interface State {
+    unhandledPromiseRejections: any;
+}
+
+class App extends Component<{}, State> {
+
+    state: State = {
+        unhandledPromiseRejections: []
+    };
 
     componentDidMount() {
-        window.onunhandledrejection = (err) => {
+        window.onunhandledrejection = (err: any) => {
             this.setState((state) => {
                 const unhandledPromiseRejections = [ ...state.unhandledPromiseRejections, err.reason ];
 
@@ -29,8 +32,8 @@ class App extends Component {
 
     render() {
         const unhandledPromiseRejections = this.state.unhandledPromiseRejections;
-        let alerts = [];
-        unhandledPromiseRejections.map((rejection, index) => {
+        let alerts: any = [];
+        unhandledPromiseRejections.map((rejection: any, index: any) => {
             return alerts.push(
                 <UncontrolledAlert key={index} color="danger">
                     <h4 className="alert-heading">{rejection.message}</h4>
@@ -41,7 +44,7 @@ class App extends Component {
         });
 
         return (
-            <>
+            <Router>
                 <NavigationAppBar />
                 <main role="main" className="container">
                     {alerts}
@@ -51,7 +54,7 @@ class App extends Component {
                         <Route component={NotFoundPage} />
                     </Switch>
                 </main>
-            </>
+            </Router>
         );
     }
 }

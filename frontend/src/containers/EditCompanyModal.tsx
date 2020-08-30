@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import PropTypes from 'prop-types';
 import { FaEdit } from 'react-icons/fa';
 import CompaniesApi from '../services/CompaniesApi';
 
-class EditCompanyModal extends Component {
-    constructor(props) {
+interface Props {
+    id: string;
+    onEdited: () => void;
+}
+
+interface State {
+    id: string;
+    orgNr: string;
+    companyName: string;
+    modal: boolean;
+}
+
+class EditCompanyModal extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             id: '',
@@ -14,31 +25,35 @@ class EditCompanyModal extends Component {
             modal: false
         };
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleOrgNrChange = this.handleOrgNrChange.bind(this);
+    
         this.toggle = this.toggle.bind(this);
         this.apiUpdateCompany = this.apiUpdateCompany.bind(this);
     }
 
-    handleChange(event) {
-        const name = event.target.name;
-        const value = event.target.value;
-        this.setState({ [ name ]: value });
+    handleNameChange(event: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({ companyName: event.target.value });
+    }
+
+    handleOrgNrChange(event: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({ orgNr: event.target.value });
     }
 
     toggle() {
-        this.setState((prevState) => ({
+        this.setState(prevState => ({
             modal: !prevState.modal
-        }));
+        })
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         // Only get data from server when the modal content is actually visible
         if (this.state.modal !== prevState.modal && this.state.modal) {
             this.apiReadCompany(this.props.id);
         }
     }
 
-    async apiReadCompany(id) {
+    async apiReadCompany(id: any) {
         const company = await CompaniesApi.readCompanyById(id);
         this.setState({
                 id: company.id,
@@ -89,7 +104,7 @@ class EditCompanyModal extends Component {
                                     id="orgNr"
                                     placeholder="Valid orgNr, 9 digits"
                                     value={this.state.orgNr}
-                                    onChange={this.handleChange} />
+                                    onChange={this.handleOrgNrChange} />
                             </FormGroup>
                             <FormGroup>
                                 <Label for="companyName">Name</Label>
@@ -99,7 +114,7 @@ class EditCompanyModal extends Component {
                                     id="companyName"
                                     placeholder="Fancy name of your company"
                                     value={this.state.companyName}
-                                    onChange={this.handleChange} />
+                                    onChange={this.handleNameChange} />
                                 <FormText color="muted">
                                     If you leave this field empty we will lookup company with orgNr in Brreg
                                 </FormText>
@@ -116,9 +131,4 @@ class EditCompanyModal extends Component {
     }
 }
 
-EditCompanyModal.propTypes = {
-    id: PropTypes.number.isRequired,
-    onEdited: PropTypes.func
-};
-
-export default EditCompanyModal;
+export { EditCompanyModal };

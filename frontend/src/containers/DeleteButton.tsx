@@ -1,10 +1,25 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import PropTypes from 'prop-types';
 import { FaTrashAlt } from 'react-icons/fa';
 
-class DeleteButton extends Component {
-    constructor(props) {
+interface State {
+    modal: boolean;
+    id: number;
+    size: string;
+    title: string;
+    text: string;
+}
+
+interface Props {
+    id: number;
+    title: string;
+    text: string;
+    onYes?: (id: number) => void;
+    onNo?: (id: number) => void;
+}
+
+class DeleteButton extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             modal: false,
@@ -67,12 +82,4 @@ class DeleteButton extends Component {
 
 }
 
-DeleteButton.propTypes = {
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    onYes: PropTypes.func,
-    onNo: PropTypes.func
-};
-
-export default DeleteButton;
+export { DeleteButton };

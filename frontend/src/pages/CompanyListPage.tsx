@@ -1,32 +1,30 @@
 import React, { Component } from 'react';
-import CreateCompanyModal from '../containers/CreateCompanyModal';
-import EditCompanyModal from '../containers/EditCompanyModal';
-import DeleteButton from '../containers/DeleteButton';
 import { Button, Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
 import { FaBuilding, FaSyncAlt } from 'react-icons/fa';
+
+import { CreateCompanyModal, DeleteButton, EditCompanyModal } from '../containers';
 import CompaniesApi from '../services/CompaniesApi';
 
-class CompanyListPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            companies: []
-        };
+interface State {
+    companies: any;
+}
 
-        this.apiDeleteCompany = this.apiDeleteCompany.bind(this);
-        this.apiReadAllCompanies = this.apiReadAllCompanies.bind(this);
-    }
+class CompanyListPage extends Component<{}, State> {
+
+    state: State = {
+        companies: []
+    };
 
     componentDidMount() {
         this.apiReadAllCompanies();
     }
 
-    async apiReadAllCompanies() {
+    apiReadAllCompanies = async () => {
         const companies = await CompaniesApi.readAllCompanies();
         this.setState({ companies: companies });
     }
 
-    async apiDeleteCompany(id) {
+    apiDeleteCompany = async (id: any) => {
         await CompaniesApi.deleteCompanyById(id);
 
         // Retrieve refreshed list of companies from the server
@@ -36,8 +34,8 @@ class CompanyListPage extends Component {
     render() {
         const companies = this.state.companies;
 
-        let companiesRows = [];
-        companies.map((company) => {
+        let companiesRows: any = [];
+        companies.map((company: any) => {
             return companiesRows.push(
                 <tr key={company.id}>
                     <th scope="row">{company.id}</th>
@@ -94,4 +92,4 @@ class CompanyListPage extends Component {
     }
 }
 
-export default CompanyListPage;
+export { CompanyListPage };
