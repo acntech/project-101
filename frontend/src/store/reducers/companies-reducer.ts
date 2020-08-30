@@ -17,7 +17,7 @@ export function companies(state = initialCompaniesState, action: CompanyActionTy
         case CREATE_NEW_COMPANY_BY_ORGNR:
             return [...state, action.company];
         case GET_ALL_COMPANIES: 
-            return [initialCompaniesState, action.companies];
+            return [...initialCompaniesState, action.companies];
         default:
             return state; 
     }
