@@ -41,8 +41,8 @@ class EditCompanyModal extends Component<Props, State> {
     }
 
     toggle() {
-        this.setState({
-            modal: !this.state.modal
+        this.setState(prevState => ({
+            modal: !prevState.modal
         })
     }
 
