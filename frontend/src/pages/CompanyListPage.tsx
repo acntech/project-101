@@ -1,38 +1,33 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
 import { FaBuilding, FaSyncAlt } from 'react-icons/fa';
+import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
-import { CreateCompanyModal, DeleteButton, EditCompanyModal } from '../containers';
-import CompaniesApi from '../services/CompaniesApi';
+import { DeleteButton, CreateCompanyModalConnected, EditCompanyModalConnected } from '../containers';
+import { RootStateType } from '../types/store';
+import { getCompanies, deleteCompany } from '../store/actions/companies-actions';
 
-interface State {
-    companies: any;
-}
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-class CompanyListPage extends Component<{}, State> {
-
-    state: State = {
-        companies: []
-    };
+class CompanyListPage extends Component<Props> {
 
     componentDidMount() {
         this.apiReadAllCompanies();
     }
 
     apiReadAllCompanies = async () => {
-        const companies = await CompaniesApi.readAllCompanies();
-        this.setState({ companies: companies });
+        this.props.getCompanies();
     }
 
     apiDeleteCompany = async (id: any) => {
-        await CompaniesApi.deleteCompanyById(id);
-
-        // Retrieve refreshed list of companies from the server
+        await this.props.removeCompany(id);
         this.apiReadAllCompanies();
     }
 
     render() {
-        const companies = this.state.companies;
+        const companies = this.props.companies || [];
 
         let companiesRows: any = [];
         companies.map((company: any) => {
@@ -42,7 +37,7 @@ class CompanyListPage extends Component<{}, State> {
                     <td>{company.orgNr}</td>
                     <td>{company.companyName}</td>
                     <td className="table-buttons">
-                        <EditCompanyModal
+                        <EditCompanyModalConnected
                             id={company.id}
                             onEdited={this.apiReadAllCompanies} />
                         <DeleteButton
@@ -81,7 +76,7 @@ class CompanyListPage extends Component<{}, State> {
                     <CardTitle tag="h3"><FaBuilding /> List of companies</CardTitle>
                     <div className="card-action">
                         <Button color="secondary" onClick={this.apiReadAllCompanies}><FaSyncAlt /></Button> {' '}
-                        <CreateCompanyModal onCreated={this.apiReadAllCompanies} />
+                        <CreateCompanyModalConnected onCreated={this.apiReadAllCompanies} />
                     </div>
                     <CardText tag="div">
                         {companies.length > 0 ? companiesTable : emptyTable}
@@ -92,4 +87,15 @@ class CompanyListPage extends Component<{}, State> {
     }
 }
 
-export { CompanyListPage };
+const mapStateToProps = (state: RootStateType) => ({
+    companies: state.companies
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootStateType, undefined, AnyAction>) => ({
+    getCompanies: () => dispatch(getCompanies()),
+    removeCompany: (id: string) => dispatch(deleteCompany(id))
+});
+
+const CompanyListPageConnected = connect(mapStateToProps, mapDispatchToProps)(CompanyListPage);
+
+export { CompanyListPageConnected, CompanyListPage };

@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk'
+
 import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { FaEdit } from 'react-icons/fa';
-import CompaniesApi from '../services/CompaniesApi';
 
-interface Props {
+import { updateCompany, readCompanyById } from '../store/actions/companies-actions';
+import { Company } from '../types/company';
+import { RootStateType } from '../types/store';
+
+interface OwnProps {
     id: string;
     onEdited: () => void;
 }
@@ -14,6 +21,8 @@ interface State {
     companyName: string;
     modal: boolean;
 }
+
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
 
 class EditCompanyModal extends Component<Props, State> {
     constructor(props: Props) {
@@ -43,7 +52,7 @@ class EditCompanyModal extends Component<Props, State> {
     toggle() {
         this.setState(prevState => ({
             modal: !prevState.modal
-        })
+        }));
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
@@ -53,23 +62,22 @@ class EditCompanyModal extends Component<Props, State> {
         }
     }
 
-    async apiReadCompany(id: any) {
-        const company = await CompaniesApi.readCompanyById(id);
+    async apiReadCompany(id: string) {
+        const company = await this.props.getCompany(id);
         this.setState({
-                id: company.id,
-                orgNr: company.orgNr,
-                companyName: company.companyName
-            }
-        );
+            id: company.id,
+            orgNr: company.orgNr,
+            companyName: company.companyName
+        });
     }
 
     async apiUpdateCompany() {
-        const company = {
+        const company: Company = {
             id: this.state.id,
             orgNr: this.state.orgNr,
             companyName: this.state.companyName
         };
-        await CompaniesApi.updateCompany(company.id, company);
+        await this.props.updateCompany(company.id, company);
 
         // Inform parent component that existing company has been edited, if onEdited() defined in props
         if (typeof this.props.onEdited === 'function') {
@@ -131,4 +139,11 @@ class EditCompanyModal extends Component<Props, State> {
     }
 }
 
-export { EditCompanyModal };
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootStateType, undefined, AnyAction>) => ({
+    getCompany: (id: string) => dispatch(readCompanyById(id)),
+    updateCompany: (id: string, company: Company) => dispatch(updateCompany(id, company)),
+});
+
+const EditCompanyModalConnected = connect(null, mapDispatchToProps)(EditCompanyModal);
+
+export { EditCompanyModalConnected, EditCompanyModal };

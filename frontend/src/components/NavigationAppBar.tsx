@@ -12,9 +12,9 @@ class NavigationAppBar extends Component<{}, State> {
     };
 
     toggleNavbar = () => {
-        this.setState({
-            collapsed: !this.state.collapsed
-        });
+        this.setState(prevState => ({
+            collapsed: !prevState.collapsed
+        }));
     }
 
     render() {

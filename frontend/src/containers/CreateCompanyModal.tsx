@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+
 import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { FaPlus } from 'react-icons/fa';
-import CompaniesApi from '../services/CompaniesApi';
 
-interface Props {
+import { createNewCompany, createNewCompanyByOrgnr } from '../store/actions/companies-actions';
+import { Company } from '../types/company';
+import { RootStateType } from '../types/store';
+
+interface OwnProps {
     onCreated?: () => void;
 }
 
@@ -12,6 +19,8 @@ interface State {
     companyName: string;
     modal: boolean;
 }
+
+type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
 
 class CreateCompanyModal extends Component<Props, State> {
     constructor(props: Props) {
@@ -43,18 +52,18 @@ class CreateCompanyModal extends Component<Props, State> {
     }
 
     async apiCreateCompany() {
-        const company = {
+        const company: Company = {
+            id: '',
             orgNr: this.state.orgNr,
             companyName: this.state.companyName
         };
 
         if (company.companyName) {
-            await CompaniesApi.createNewCompany(company);
+            await this.props.createCompany(company);
         } else {
-            await CompaniesApi.createNewCompanyByOrgnr(company.orgNr);
+            await this.props.createCompanyByOrgNr(company.orgNr);
         }
 
-        // Inform parent component that new company has been created, if onCreated() defined in props
         if (typeof this.props.onCreated === 'function') {
             this.props.onCreated();
         }
@@ -105,4 +114,11 @@ class CreateCompanyModal extends Component<Props, State> {
     }
 }
 
-export { CreateCompanyModal };
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootStateType, undefined, AnyAction>) => ({
+    createCompany: (company: Company) => dispatch(createNewCompany(company)),
+    createCompanyByOrgNr: (orgNr: string) => dispatch(createNewCompanyByOrgnr(orgNr))
+});
+
+const CreateCompanyModalConnected = connect(null, mapDispatchToProps)(CreateCompanyModal);
+
+export { CreateCompanyModalConnected, CreateCompanyModal };
