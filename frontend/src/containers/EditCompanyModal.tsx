@@ -64,11 +64,13 @@ class EditCompanyModal extends Component<Props, State> {
 
     async apiReadCompany(id: string) {
         const company = await this.props.getCompany(id);
-        this.setState({
-            id: company.id,
-            orgNr: company.orgNr,
-            companyName: company.companyName
-        });
+        if (company) {
+            this.setState({
+                id: company.id,
+                orgNr: company.orgNr,
+                companyName: company.companyName
+            });
+        }
     }
 
     async apiUpdateCompany() {

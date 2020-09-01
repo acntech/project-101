@@ -59,9 +59,9 @@ class CreateCompanyModal extends Component<Props, State> {
         };
 
         if (company.companyName) {
-            await this.props.createCompany(company);
+            this.props.createCompany(company);
         } else {
-            await this.props.createCompanyByOrgNr(company.orgNr);
+            this.props.createCompanyByOrgNr(company.orgNr);
         }
 
         if (typeof this.props.onCreated === 'function') {
