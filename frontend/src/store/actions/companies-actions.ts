@@ -1,7 +1,10 @@
+import { addErrorSuccess, ErrorsActionType } from './errors-actions';
 import { ThunkAction } from 'redux-thunk';
 import { Company } from '../../types/company';
 import { RootStateType } from '../../types/store';
 import { get, patch, post, remove } from './api';
+import { AppError } from '../../types/error';
+import { Action } from 'redux';
 
 export const CREATE_NEW_COMPANY = 'CREATE_NEW_COMPANY';
 export const CREATE_NEW_COMPANY_BY_ORGNR = 'CREATE_NEW_COMPANY_BY_ORGNR';
@@ -10,11 +13,12 @@ export const GET_COMPANY_BY_ID = 'GET_COMPANY_BY_ID';
 export const UPDATE_COMPANY = 'UPDATE_COMPANY';
 export const DELETE_COMPANY = 'DELETE_COMPANY';
 
+type AppThunkAction<T, U extends Action> = ThunkAction<T, RootStateType, undefined, U>;
+
 interface CreateCompanyAction {
     type: typeof CREATE_NEW_COMPANY;
     company: Company;
 }
-
 interface CreateCompanyByOrgnrAction {
     type: typeof CREATE_NEW_COMPANY_BY_ORGNR;
     company: Company;
@@ -75,67 +79,93 @@ const deleteCompanySuccess = (id: string): DeleteCompanyAction => ({
     id
 });
 
-export const createNewCompany = (company: Company): ThunkAction<Promise<Company>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
+export const createNewCompany = (company: Company): AppThunkAction<void, CompanyActionType | ErrorsActionType> => async (dispatch) => {
     try {
         const createdCompany = await post<Company>("/companies", company);
-        dispatch(createCompanySuccess(createdCompany));
-        return Promise.resolve(createdCompany);
+        if (typeof createdCompany !== "boolean") {
+            dispatch(createCompanySuccess(createdCompany));
+        }
     } catch (err) {
-        console.log(err);
-        return Promise.reject(err);
+        const error: AppError = {
+            message: "Failed to create new company"
+        };
+        dispatch(addErrorSuccess(error));
     }
 };
 
-export const createNewCompanyByOrgnr = (orgNr: string): ThunkAction<Promise<Company>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
+export const createNewCompanyByOrgnr = (orgNr: string): AppThunkAction<void, CompanyActionType | ErrorsActionType> => async (dispatch) => {
     try {
         const createdCompany = await post<Company>(`/companies/${orgNr}`);
-        dispatch(createCompanySuccess(createdCompany));
-        return Promise.resolve(createdCompany);
+        if (typeof createdCompany !== "boolean") {
+            dispatch(createCompanySuccess(createdCompany));
+        }
     } catch (err) {
-        console.log(err);
-        return Promise.reject(err);
+        const error: AppError = {
+            message: "Failed to create new company by orgnr"
+        };
+        dispatch(addErrorSuccess(error));
     }
 };
 
-export const getCompanies = (): ThunkAction<Promise<Company[]>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
+export const getCompanies = (): AppThunkAction<Promise<Company[]>, CompanyActionType | ErrorsActionType> => async (dispatch) => {
     try {
         const companies = await get<Company[]>("/companies");
-        dispatch(getCompaniesSuccess(companies));
-        return Promise.resolve(companies);
+        if (typeof companies !== "boolean") {
+            dispatch(getCompaniesSuccess(companies));
+            return Promise.resolve(companies);
+        }
+        return Promise.resolve([]);
     } catch (err) {
-        console.log(err);
+        const error: AppError = {
+            message: "Failed to fetch companies"
+        };
+        dispatch(addErrorSuccess(error));
         return Promise.reject(err);
     }
 };
 
-export const readCompanyById = (id: string): ThunkAction<Promise<Company>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
+export const readCompanyById = (id: string): AppThunkAction<Promise<Company | null>, CompanyActionType | ErrorsActionType> => async (dispatch) => {
     try {
         const company = await get<Company>(`/companies/${id}`);
-        dispatch(getCompanySuccess(company));
-        return Promise.resolve(company);
+        if (typeof company !== "boolean") {
+            dispatch(getCompanySuccess(company));
+            return Promise.resolve(company);
+        }
+        return Promise.resolve(null);
     } catch (err) {
-        console.log(err);
+        const error: AppError = {
+            message: "Failed to get company"
+        };
+        dispatch(addErrorSuccess(error));
         return Promise.reject(err);
     }
 };
 
-export const updateCompany = (id: string, company: Company): ThunkAction<Promise<Company>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
+export const updateCompany = (id: string, company: Company): AppThunkAction<void, CompanyActionType | ErrorsActionType> => async (dispatch) => {
     try {
         const updatedCompany = await patch<Company>(`/companies/${id}`, company);
-        dispatch(updateCompanySuccess(id, updatedCompany));
-        return Promise.resolve(updatedCompany);
+        if (typeof updatedCompany !== "boolean") {
+            dispatch(updateCompanySuccess(id, updatedCompany));
+        }
     } catch (err) {
-        console.log(err);
+        const error: AppError = {
+            message: "Failed to update company"
+        };
+        dispatch(addErrorSuccess(error));
         return Promise.reject(err);
     }
 };
 
-export const deleteCompany = (id: string): ThunkAction<Promise<boolean>, RootStateType, undefined, CompanyActionType> => async (dispatch) => {
+export const deleteCompany = (id: string): AppThunkAction<void, CompanyActionType | ErrorsActionType> => async (dispatch) => {
     try {
         const isCompanyDeleted = await remove<boolean>(`/companies/${id}`);
         dispatch(deleteCompanySuccess(id));
         return Promise.resolve(isCompanyDeleted);
     } catch (err) {
+        const error: AppError = {
+            message: "Failed to delete company"
+        };
+        dispatch(addErrorSuccess(error));
         return Promise.reject(err);
     }
 };
