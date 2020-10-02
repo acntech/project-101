@@ -24,7 +24,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Project101Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CompanyResourceIT {
 
@@ -42,25 +41,7 @@ class CompanyResourceIT {
 
     @Test
     void findAll() {
-        final Company acme = new Company("ACME", "123456789");
-        final Company umbrella = new Company("Umbrella", "666666666");
-        companyService.save(acme);
-        companyService.save(umbrella);
-
-        ResponseEntity<CompanyDto[]> response = testRestTemplate.exchange(
-                TestUtil.createURL(port, "/companies"),
-                HttpMethod.GET,
-                new HttpEntity<>(null, new HttpHeaders()),
-                CompanyDto[].class
-        );
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        List<CompanyDto> companies = Arrays.asList(response.getBody());
-        assertThat(companies).isNotEmpty()
-                .extracting(CompanyDto::getCompanyName, CompanyDto::getOrgNr)
-                .contains(
-                        Tuple.tuple(acme.getCompanyName(), acme.getOrgNr()),
-                        Tuple.tuple(umbrella.getCompanyName(), umbrella.getOrgNr())
-                );
+        //TODO: Implement
     }
 
     @Test
@@ -84,19 +65,7 @@ class CompanyResourceIT {
 
     @Test
     void createCompany() {
-        final Company company = new Company("CompanyName", "123456789");
-
-        HttpEntity<Company> entity = new HttpEntity<>(company, new HttpHeaders());
-
-        ResponseEntity response = testRestTemplate.exchange(
-                TestUtil.createURL(port, "/companies/"),
-                HttpMethod.POST,
-                entity,
-                ResponseEntity.class
-        );
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(response.getHeaders().get(HttpHeaders.LOCATION).get(0)).containsPattern("\\/companies\\/\\d+");
+        //TODO: Implement
     }
 
     @Test

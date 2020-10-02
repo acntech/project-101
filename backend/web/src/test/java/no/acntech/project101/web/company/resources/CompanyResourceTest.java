@@ -49,26 +49,12 @@ class CompanyResourceTest {
 
     @Test
     void findById() throws Exception {
-        final Company acme = new Company("ACME", "123456789");
-        when(companyService.findById(1L)).thenReturn(Optional.of(acme));
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/companies/{id}", 1)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+        //TODO: Implement
     }
 
     @Test
     void createCompany() throws Exception {
-        final Company acme = new Company("ACME", "123456789");
-        when(companyService.save(any(Company.class))).thenReturn(acme);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/companies")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(acme))
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+        //TODO: Implement
     }
 
     @Test
@@ -86,15 +72,7 @@ class CompanyResourceTest {
 
     @Test
     void deleteCompany() throws Exception {
-        final Company acme = new Company("ACME", "123456789");
-        when(companyService.findById(1L)).thenReturn(Optional.of(acme));
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .delete("/companies/{id}", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isAccepted())
-                .andReturn();
+        //TODO: Implement
     }
 
     @Test
