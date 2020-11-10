@@ -17,6 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+/**
+ * The purpose of these tests is only to show an example on syntax!
+ *
+ * These tests are not really testing anything other than that the test framework is behaving as expected, as there is
+ * no actual functionality being tested.
+ */
 @ExtendWith(MockitoExtension.class)
 class CompanyServiceTest {
 

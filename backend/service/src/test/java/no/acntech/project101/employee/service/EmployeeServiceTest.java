@@ -16,6 +16,12 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+/**
+ * The purpose of these tests is only to show an example on syntax!
+ *
+ * These tests are not really testing anything other than that the test framework is behaving as expected, as there is
+ * no actual functionality being tested.
+ */
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {
 
@@ -27,7 +33,14 @@ class EmployeeServiceTest {
 
     @Test
     void save() {
-        //TODO: implement
+        final Employee employee = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        when(employeeRepository.save(employee)).thenReturn(employee);
+
+        final Employee savedEmployee = employeeService.save(employee);
+
+        assertThat(savedEmployee.getFirstName()).isEqualTo(employee.getFirstName());
+        assertThat(savedEmployee.getLastName()).isEqualTo(employee.getLastName());
+        assertThat(savedEmployee.getDateOfBirth()).isEqualTo(employee.getDateOfBirth());
     }
 
     @Test
@@ -45,12 +58,23 @@ class EmployeeServiceTest {
 
     @Test
     void findAll() {
-        //TODO: implement
+        final Employee ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        final Employee tor = new Employee("Tor", "Divel", LocalDate.of(1994, 10, 1));
+        when(employeeRepository.findAll()).thenReturn(Arrays.asList(ken, tor));
+
+        List<Employee> employees = employeeService.findAll();
+
+        assertThat(employees).hasSize(2);
+        assertThat(employees).contains(ken, tor);
     }
 
     @Test
     void deleteExisting() {
-        //TODO: implement
+        when(employeeRepository.existsById(1L)).thenReturn(true);
+
+        employeeService.delete(1L);
+
+        verify(employeeRepository).deleteById(1L);
     }
 
     @Test

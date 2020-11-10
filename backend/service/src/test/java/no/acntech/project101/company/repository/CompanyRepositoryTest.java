@@ -11,6 +11,12 @@ import org.springframework.test.context.ContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * The purpose of these tests is only to show an example on syntax!
+ *
+ * These tests are not really testing anything other than that the test framework is behaving as expected, as there is
+ * no actual functionality being tested.
+ */
 @DataJpaTest
 @Import({CompanyDatabaseConfig.class, EmployeeDatabaseConfig.class})
 @ContextConfiguration(classes = CompanyRepository.class)
