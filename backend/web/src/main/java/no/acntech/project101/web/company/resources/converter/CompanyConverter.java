@@ -11,6 +11,6 @@ public class CompanyConverter implements Converter<CompanyDto, Company> {
 
     @Override
     public Company convert(final CompanyDto source) {
-        return new Company(source.getCompanyName(), source.getOrgNr());
+        return new Company(source.companyName(), source.orgNr());
     }
 }
