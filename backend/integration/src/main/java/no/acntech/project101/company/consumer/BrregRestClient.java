@@ -1,10 +1,7 @@
 package no.acntech.project101.company.consumer;
 
-import java.net.URI;
-
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import no.acntech.project101.company.model.BrregRespons;
@@ -12,21 +9,27 @@ import no.acntech.project101.company.model.BrregRespons;
 @Component
 public class BrregRestClient {
 
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
     private final String url = "https://webapi.no/api/v1/brreg/{orgnr}";
 
-    public BrregRestClient(final RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public BrregRestClient(final WebClient.Builder webClientBuilder) {
+        this.webClient = webClientBuilder.build();
     }
 
     public String lookupOrganizationName(final String organisasjonsnummer) {
-        final URI uri = UriComponentsBuilder
+        final var uri = UriComponentsBuilder
                 .fromUriString(url)
                 .buildAndExpand(organisasjonsnummer)
                 .toUri();
 
-        final BrregRespons brregRespons = restTemplate.getForEntity(uri, BrregRespons.class).getBody();
-        return brregRespons.getData().getName();
+        final var brregRespons = webClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(BrregRespons.class)
+                .blockOptional();
+
+        return brregRespons.map(respons -> respons.data().name())
+                .orElse(null);
     }
 }

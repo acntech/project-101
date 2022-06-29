@@ -21,8 +21,8 @@ class CompanyRepositoryTest {
 
     @Test
     void save() {
-        final Company company = new Company("CompanyName", "123456789");
-        final Company savedCompany = companyRepository.save(company);
+        final var company = new Company("CompanyName", "123456789");
+        final var savedCompany = companyRepository.save(company);
         assertThat(savedCompany.getCompanyName()).isEqualTo(company.getCompanyName());
         assertThat(savedCompany.getOrgNr()).isEqualTo(company.getOrgNr());
     }

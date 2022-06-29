@@ -1,14 +1,7 @@
 package no.acntech.project101.company.model;
 
-public class BrregRespons {
+public record BrregRespons(
+        Data data
+) {
 
-    private Data data;
-
-    public Data getData() {
-        return data;
-    }
-
-    public void setData(final Data data) {
-        this.data = data;
-    }
 }
