@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +42,8 @@ public class CompanyResource {
 
     @GetMapping
     public ResponseEntity<List<CompanyDto>> findAll() {
-        final List<Company> companies = companyService.findAll();
-        final List<CompanyDto> collect = companies.stream()
+        final var companies = companyService.findAll();
+        final var collect = companies.stream()
                 .map(companyDtoConverter::convert)
                 .collect(Collectors.toList());
 
@@ -51,10 +52,10 @@ public class CompanyResource {
 
     @GetMapping("{id}")
     public ResponseEntity<CompanyDto> findById(@PathVariable final Long id) {
-        final Optional<Company> company = companyService.findById(id);
+        final var company = companyService.findById(id);
 
         if (company.isPresent()) {
-            final CompanyDto convert = companyDtoConverter.convert(company.get());
+            final var convert = companyDtoConverter.convert(company.get());
             return ResponseEntity.ok(convert);
         } else {
             return ResponseEntity.notFound().build();
@@ -62,10 +63,10 @@ public class CompanyResource {
     }
 
     @PostMapping
-    public ResponseEntity createCompany(@RequestBody final CompanyDto companyDto) {
-        final Company convert = companyConverter.convert(companyDto);
-        final Company saved = companyService.save(convert);
-        final URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+    public ResponseEntity createCompany(@RequestBody @Validated final CompanyDto companyDto) {
+        final var convert = companyConverter.convert(companyDto);
+        final var saved = companyService.save(convert);
+        final var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(saved.getId())
                 .toUri();
@@ -75,8 +76,8 @@ public class CompanyResource {
 
     @PostMapping("{orgnr}")
     public ResponseEntity createCompany(@PathVariable final String orgnr) {
-        final Company saved = companyService.save(orgnr);
-        final URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+        final var saved = companyService.save(orgnr);
+        final var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(saved.getId())
                 .toUri();
@@ -86,7 +87,7 @@ public class CompanyResource {
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteCompany(@PathVariable final Long id) {
-        final Optional<Company> company = companyService.findById(id);
+        final var company = companyService.findById(id);
 
         if (company.isPresent()) {
             companyService.delete(id);
@@ -98,16 +99,16 @@ public class CompanyResource {
 
     @PatchMapping("{id}")
     public ResponseEntity updateCompany(@PathVariable final Long id, @RequestBody final CompanyDto companyDto) {
-        final Optional<Company> optionalCompany = companyService.findById(id);
+        final var optionalCompany = companyService.findById(id);
 
         if (optionalCompany.isPresent()) {
-            Company existingCompany = optionalCompany.get();
-            existingCompany.setCompanyName(companyDto.getCompanyName());
-            existingCompany.setOrgNr(companyDto.getOrgNr());
+            var existingCompany = optionalCompany.get();
+            existingCompany.setCompanyName(companyDto.companyName());
+            existingCompany.setOrgNr(companyDto.orgNr());
 
-            Company saved = companyService.save(existingCompany);
+            var saved = companyService.save(existingCompany);
 
-            final CompanyDto convert = companyDtoConverter.convert(saved);
+            final var convert = companyDtoConverter.convert(saved);
             return ResponseEntity.ok(convert);
         } else {
             return ResponseEntity.notFound().build();

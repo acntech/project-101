@@ -49,9 +49,9 @@ class EmployeeResourceTest {
 
     @Test
     void findAll() throws Exception {
-        final Company company = new Company("ACME", "123456789");
-        final Employee ken = new Employee();
-        final Employee tor = new Employee();
+        final var company = new Company("ACME", "123456789");
+        final var ken = new Employee();
+        final var tor = new Employee();
 //        ken.setCompany(company);
 //        tor.setCompany(company);
         lenient().when(employeeService.findAll()).thenReturn(Arrays.asList(ken, tor));
@@ -65,7 +65,7 @@ class EmployeeResourceTest {
 
     @Test
     void findById() throws Exception {
-        final Employee ken = new Employee();
+        final var ken = new Employee();
 //        ken.setCompany(new Company("ACME", "123456789"));
         lenient().when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(ken));
 
@@ -78,9 +78,9 @@ class EmployeeResourceTest {
 
     @Test
     void createEmployee() throws Exception {
-        final EmployeeDto employeeDto = new EmployeeDto(1L, "Ken", "Guru", LocalDate.of(1994, 10, 1), 1L);
-        final Employee ken = new Employee();
-        final Company company = new Company("ACME", "123456789");
+        final var employeeDto = new EmployeeDto(1L, "Ken", "Guru", LocalDate.of(1994, 10, 1), 1L);
+        final var ken = new Employee();
+        final var company = new Company("ACME", "123456789");
 
         lenient().when(employeeService.save(any(Employee.class))).thenReturn(ken);
         lenient().when(companyService.findById(anyLong())).thenReturn(Optional.of(company));
@@ -95,7 +95,7 @@ class EmployeeResourceTest {
 
     @Test
     void deleteEmployee() throws Exception {
-        final Employee ken = new Employee();
+        final var ken = new Employee();
         lenient().when(employeeService.findById(any(Long.class))).thenReturn(Optional.of(ken));
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -106,9 +106,9 @@ class EmployeeResourceTest {
 
     @Test
     void updateEmployee() throws Exception {
-        final EmployeeDto employeeDto = new EmployeeDto(1L, "Ken", "Guru", LocalDate.of(1994, 10, 1), 1L);
-        final Employee ken = new Employee();
-        final Company company = new Company("ACME", "123456789");
+        final var employeeDto = new EmployeeDto(1L, "Ken", "Guru", LocalDate.of(1994, 10, 1), 1L);
+        final var ken = new Employee();
+        final var company = new Company("ACME", "123456789");
 
         lenient().when(employeeService.findById(anyLong())).thenReturn(Optional.of(ken));
         lenient().when(employeeService.save(any(Employee.class))).thenReturn(ken);
