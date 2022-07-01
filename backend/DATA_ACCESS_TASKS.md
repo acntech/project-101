@@ -39,4 +39,5 @@ the mapping will ManyToOne (tip: google that to figure out how the mapping can b
 
 #### If you still have time
 * Create a new endpoint, either in company og in employee that does something you want it to do. Only your imagination can stop you
+* When creating a new Company from an orgnr, we look up and find the name of the organization. The API we use returns more information than the name. Expand what information we fetch and save when creating a Company
 
