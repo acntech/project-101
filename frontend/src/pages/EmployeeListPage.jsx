@@ -36,9 +36,8 @@ class EmployeeListPage extends Component {
     render() {
         const employees = this.state.employees;
 
-        let employeeRows = [];
-        employees.map((employee) => {
-            return employeeRows.push(
+        let employeeRows = employees.map((employee) => {
+            return (
                 <tr key={employee.id}>
                     <th scope="row">{employee.id}</th>
                     <td>{employee.firstName}</td>

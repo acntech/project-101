@@ -26,9 +26,9 @@ public class CompanyService {
     }
 
     public Company save(final String organizationNumber) {
-        final String organizationName = brregRestClient.lookupOrganizationName(organizationNumber);
+        final var organizationName = brregRestClient.lookupOrganizationName(organizationNumber);
 
-        final Company company = new Company(organizationName, organizationNumber);
+        final var company = new Company(organizationName, organizationNumber);
         return save(company);
     }
 

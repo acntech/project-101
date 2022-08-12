@@ -33,10 +33,10 @@ class EmployeeServiceTest {
 
     @Test
     void save() {
-        final Employee employee = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        final var employee = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
         when(employeeRepository.save(employee)).thenReturn(employee);
 
-        final Employee savedEmployee = employeeService.save(employee);
+        final var savedEmployee = employeeService.save(employee);
 
         assertThat(savedEmployee.getFirstName()).isEqualTo(employee.getFirstName());
         assertThat(savedEmployee.getLastName()).isEqualTo(employee.getLastName());
@@ -45,11 +45,11 @@ class EmployeeServiceTest {
 
     @Test
     void findById() {
-        final Employee employee = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        final var employee = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
 
         when(employeeRepository.findById(1L)).thenReturn(Optional.of(employee));
 
-        final Employee foundEmployee = employeeService.findById(1L).get();
+        final var foundEmployee = employeeService.findById(1L).get();
 
         assertThat(foundEmployee.getFirstName()).isEqualTo(employee.getFirstName());
         assertThat(foundEmployee.getLastName()).isEqualTo(employee.getLastName());
@@ -58,11 +58,11 @@ class EmployeeServiceTest {
 
     @Test
     void findAll() {
-        final Employee ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
-        final Employee tor = new Employee("Tor", "Divel", LocalDate.of(1994, 10, 1));
+        final var ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        final var tor = new Employee("Tor", "Divel", LocalDate.of(1994, 10, 1));
         when(employeeRepository.findAll()).thenReturn(Arrays.asList(ken, tor));
 
-        List<Employee> employees = employeeService.findAll();
+        var employees = employeeService.findAll();
 
         assertThat(employees).hasSize(2);
         assertThat(employees).contains(ken, tor);
