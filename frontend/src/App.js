@@ -3,7 +3,7 @@ import EmployeeListPage from './pages/EmployeeListPage';
 import CompanyListPage from './pages/CompanyListPage';
 import NavigationAppBar from './components/NavigationAppBar';
 import { Route, Switch } from 'react-router-dom';
-import NotFound from './pages/NotFound';
+import NotFoundPage from './pages/NotFoundPage';
 import './styles/styles.css';
 import FrontPage from './pages/FrontPage';
 import { UncontrolledAlert } from 'reactstrap';
@@ -30,9 +30,8 @@ class App extends Component {
 
     render() {
         const unhandledPromiseRejections = this.state.unhandledPromiseRejections;
-        let alerts = [];
-        unhandledPromiseRejections.map((rejection, index) => {
-            return alerts.push(
+        let alerts = unhandledPromiseRejections.map((rejection, index) => {
+            return (
                 <UncontrolledAlert key={index} color="danger">
                     <h4 className="alert-heading">{rejection.message}</h4>
                     <hr />
@@ -50,7 +49,7 @@ class App extends Component {
                         <Route exact path="/" component={FrontPage} />
                         <Route path="/employees" component={EmployeeListPage} />
                         <Route path="/companies" component={CompanyListPage} />
-                        <Route component={NotFound} />
+                        <Route component={NotFoundPage} />
                     </Switch>
                 </main>
             </>

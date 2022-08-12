@@ -36,8 +36,8 @@ class CompanyResourceTest {
 
     @Test
     void findAll() throws Exception {
-        final Company acme = new Company("ACME", "123456789");
-        final Company umbrella = new Company("Umbrella", "666666666");
+        final var acme = new Company("ACME", "123456789");
+        final var umbrella = new Company("Umbrella", "666666666");
         when(companyService.findAll()).thenReturn(Arrays.asList(acme, umbrella));
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/companies")
@@ -59,7 +59,7 @@ class CompanyResourceTest {
 
     @Test
     void createCompanyByOrgNr() throws Exception {
-        final Company acme = new Company("ACME", "123456789");
+        final var acme = new Company("ACME", "123456789");
         when(companyService.save(any(String.class))).thenReturn(acme);
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -77,8 +77,8 @@ class CompanyResourceTest {
 
     @Test
     void updateCompany() throws Exception {
-        final CompanyDto companyDto = new CompanyDto(1L, "ACME", "123456789");
-        final Company acme = new Company("ACME", "123456789");
+        final var companyDto = new CompanyDto(1L, "ACME", "123456789");
+        final var acme = new Company("ACME", "123456789");
 
         when(companyService.findById(anyLong())).thenReturn(Optional.of(acme));
         when(companyService.save(any(Company.class))).thenReturn(acme);

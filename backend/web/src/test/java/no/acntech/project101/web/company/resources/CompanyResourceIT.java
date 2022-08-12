@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -46,10 +46,10 @@ class CompanyResourceIT {
 
     @Test
     void findById() {
-        final Company acme = new Company("ACME", "123456789");
-        final Company savedCompany = companyService.save(acme);
+        final var acme = new Company("ACME", "123456789");
+        final var savedCompany = companyService.save(acme);
 
-        ResponseEntity<CompanyDto> response = testRestTemplate.exchange(
+        var response = testRestTemplate.exchange(
                 TestUtil.createURL(port, "/companies/" + savedCompany.getId()),
                 HttpMethod.GET,
                 new HttpEntity<>(null, new HttpHeaders()),
@@ -57,9 +57,9 @@ class CompanyResourceIT {
         );
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        CompanyDto companyDto = response.getBody();
-        assertThat(companyDto.getCompanyName()).isEqualTo(savedCompany.getCompanyName());
-        assertThat(companyDto.getOrgNr()).isEqualTo(savedCompany.getOrgNr());
+        var companyDto = response.getBody();
+        assertThat(companyDto.companyName()).isEqualTo(savedCompany.getCompanyName());
+        assertThat(companyDto.orgNr()).isEqualTo(savedCompany.getOrgNr());
 
     }
 
@@ -70,10 +70,10 @@ class CompanyResourceIT {
 
     @Test
     void createCompanyByOrgNr() {
-        String orgNr = "123456789";
+        var orgNr = "123456789";
         doReturn(orgNr).when(brregRestClient).lookupOrganizationName(anyString());
 
-        ResponseEntity response = testRestTemplate.exchange(
+        var response = testRestTemplate.exchange(
                 TestUtil.createURL(port, "/companies/"+orgNr),
                 HttpMethod.POST,
                 null,
@@ -85,8 +85,8 @@ class CompanyResourceIT {
 
     @Test
     void deleteCompany() {
-        final Company acme = companyService.save(new Company("ACME", "123456789"));
-        ResponseEntity response = testRestTemplate.exchange(
+        final var acme = companyService.save(new Company("ACME", "123456789"));
+        var response = testRestTemplate.exchange(
                 TestUtil.createURL(port, "/companies/" + acme.getId()),
                 HttpMethod.DELETE,
                 new HttpEntity<>(null, new HttpHeaders()),

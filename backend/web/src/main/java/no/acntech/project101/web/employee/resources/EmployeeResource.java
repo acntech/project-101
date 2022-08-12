@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,8 +47,8 @@ public class EmployeeResource {
 
     @GetMapping
     public ResponseEntity<List<EmployeeDto>> findAll() {
-        final List<Employee> employees = employeeService.findAll();
-        final List<EmployeeDto> collect = employees.stream()
+        final var employees = employeeService.findAll();
+        final var collect = employees.stream()
                 .map(employeeDtoConverter::convert)
                 .collect(Collectors.toList());
 
@@ -56,10 +57,10 @@ public class EmployeeResource {
 
     @GetMapping("{id}")
     public ResponseEntity<EmployeeDto> findById(@PathVariable final Long id) {
-        final Optional<Employee> employee = employeeService.findById(id);
+        final var employee = employeeService.findById(id);
 
         if (employee.isPresent()) {
-            final EmployeeDto convert = employeeDtoConverter.convert(employee.get());
+            final var convert = employeeDtoConverter.convert(employee.get());
             return ResponseEntity.ok(convert);
         } else {
             return ResponseEntity.notFound().build();
@@ -67,17 +68,17 @@ public class EmployeeResource {
     }
 
     @PostMapping
-    public ResponseEntity createEmployee(@RequestBody final EmployeeDto employeeDto) {
-        final Optional<Company> company = companyService.findById(employeeDto.getCompanyId());
+    public ResponseEntity createEmployee(@RequestBody @Validated final EmployeeDto employeeDto) {
+        final var company = companyService.findById(employeeDto.companyId());
 
-        if(!company.isPresent()){
+        if(company.isEmpty()){
             return ResponseEntity.notFound().build();
         }
 
-        final Employee employee = employeeConverter.convert(employeeDto);
+        final var employee = employeeConverter.convert(employeeDto);
         employee.setCompany(company.get());
-        final Employee saved = employeeService.save(employee);
-        final URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+        final var saved = employeeService.save(employee);
+        final var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(saved.getId())
                 .toUri();
@@ -87,7 +88,7 @@ public class EmployeeResource {
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteEmployee(@PathVariable final Long id) {
-        final Optional<Employee> employee = employeeService.findById(id);
+        final var employee = employeeService.findById(id);
 
         if (employee.isPresent()) {
             employeeService.delete(id);
@@ -99,19 +100,19 @@ public class EmployeeResource {
 
     @PatchMapping("{id}")
     public ResponseEntity updateEmployee(@PathVariable final Long id, @RequestBody final EmployeeDto employeeDto) {
-        final Optional<Employee> optionalEmployee = employeeService.findById(id);
-        final Optional<Company> company = companyService.findById(employeeDto.getCompanyId());
+        final var optionalEmployee = employeeService.findById(id);
+        final var company = companyService.findById(employeeDto.companyId());
 
         if (optionalEmployee.isPresent() && company.isPresent()) {
-            Employee existingEmployee = optionalEmployee.get();
-            existingEmployee.setFirstName(employeeDto.getFirstName());
-            existingEmployee.setLastName(employeeDto.getLastName());
-            existingEmployee.setDateOfBirth(employeeDto.getDateOfBirth());
+            var existingEmployee = optionalEmployee.get();
+            existingEmployee.setFirstName(employeeDto.firstName());
+            existingEmployee.setLastName(employeeDto.lastName());
+            existingEmployee.setDateOfBirth(employeeDto.dateOfBirth());
             existingEmployee.setCompany(company.get());
 
-            Employee saved = employeeService.save(existingEmployee);
+            var saved = employeeService.save(existingEmployee);
 
-            final EmployeeDto convert = employeeDtoConverter.convert(saved);
+            final var convert = employeeDtoConverter.convert(saved);
             return ResponseEntity.ok(convert);
         } else {
             return ResponseEntity.notFound().build();

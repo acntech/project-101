@@ -36,9 +36,8 @@ class CompanyListPage extends Component {
     render() {
         const companies = this.state.companies;
 
-        let companiesRows = [];
-        companies.map((company) => {
-            return companiesRows.push(
+        let companiesRows = companies.map((company) => {
+            return (
                 <tr key={company.id}>
                     <th scope="row">{company.id}</th>
                     <td>{company.orgNr}</td>

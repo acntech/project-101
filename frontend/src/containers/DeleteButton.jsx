@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { FaTrashAlt } from 'react-icons/fa';
 
-class DeleteButton extends React.Component {
+class DeleteButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
