@@ -26,10 +26,10 @@ class NavigationAppBar extends Component {
                 <Collapse isOpen={!this.state.collapsed} navbar>
                     <Nav navbar>
                         <NavItem>
-                            <RouterNavLink to="/companies/" className="nav-link">Companies</RouterNavLink>
+                            <RouterNavLink to="/companies" className="nav-link">Companies</RouterNavLink>
                         </NavItem>
                         <NavItem>
-                            <RouterNavLink to="/employees/" className="nav-link">Employees</RouterNavLink>
+                            <RouterNavLink to="/employees" className="nav-link">Employees</RouterNavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>

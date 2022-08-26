@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import EmployeeListPage from './pages/EmployeeListPage';
 import CompanyListPage from './pages/CompanyListPage';
 import NavigationAppBar from './components/NavigationAppBar';
-import { Route, Switch } from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import NotFoundPage from './pages/NotFoundPage';
 import './styles/styles.css';
 import FrontPage from './pages/FrontPage';
-import { UncontrolledAlert } from 'reactstrap';
+import {UncontrolledAlert} from 'reactstrap';
 
 class App extends Component {
     constructor(props) {
@@ -45,12 +45,12 @@ class App extends Component {
                 <NavigationAppBar />
                 <main role="main" className="container">
                     {alerts}
-                    <Switch>
-                        <Route exact path="/" component={FrontPage} />
-                        <Route path="/employees" component={EmployeeListPage} />
-                        <Route path="/companies" component={CompanyListPage} />
-                        <Route component={NotFoundPage} />
-                    </Switch>
+                    <Routes>
+                        <Route exact path="/" element={<FrontPage/>} />
+                        <Route path="/employees" element={<EmployeeListPage/>} />
+                        <Route path="/companies" element={<CompanyListPage/>} />
+                        <Route element={<NotFoundPage/>} />
+                    </Routes>
                 </main>
             </>
         );
