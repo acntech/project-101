@@ -37,7 +37,7 @@ const CompanyListPage = (props) => {
                     {companies.length > 0 ?
                             <CompaniesTable>
                                 {companies.map(company =>
-                                    <CompanyRow company={company} readAllCompanies={apiReadAllCompanies} deleteCompany={apiDeleteCompany} />
+                                    <CompanyRow key={company.id} company={company} readAllCompanies={apiReadAllCompanies} deleteCompany={apiDeleteCompany} />
                                 )}
                             </CompaniesTable> :
                             <NoCompaniesText/>

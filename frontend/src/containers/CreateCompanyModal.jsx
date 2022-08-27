@@ -17,7 +17,14 @@ const CreateCompanyModal = (props) => {
     }
 
     const toggle = () => {
+        setInitialValues();
+
         setIsModalOpen(currentIsModalOpen => !currentIsModalOpen);
+    }
+
+    const setInitialValues = () => {
+        setOrgNr('');
+        setCompanyName('')
     }
 
     const apiCreateCompany = async () => {
@@ -33,7 +40,7 @@ const CreateCompanyModal = (props) => {
         }
 
         // Inform parent component that new company has been created, if onCreated() defined in props
-        if (typeof this.props.onCreated === 'function') {
+        if (typeof props.onCreated === 'function') {
             props.onCreated();
         }
 

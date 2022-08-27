@@ -105,7 +105,7 @@ const EditEmployeeModal = (props) => {
                         </FormGroup>
                         <FormGroup>
                             <Label for="companySelect">Company</Label>
-                            <CompaniesSelectOptions companies={companies} handleChange={handleChange} />
+                            <CompaniesSelectOptions defaultCompanyId={employee.companyId} companies={companies} handleChange={handleChange} />
                         </FormGroup>
                     </Form>
                 </ModalBody>

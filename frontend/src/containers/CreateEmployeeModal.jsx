@@ -5,16 +5,18 @@ import CompaniesApi from '../services/CompaniesApi';
 import EmployeesApi from '../services/EmployeesApi';
 import CompaniesSelectOptions from '../components/CompaniesSelectOptions';
 
+const initialValues = {
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    companyId: ''
+};
+
 const CreateEmployeeModal = (props) => {
     const [companies, setCompanies] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
-
-    const [employee, setEmployee] = React.useState({
-        firstName: '',
-        lastName: '',
-        dateOfBirth: '',
-        companyId: ''
-    })
+    
+    const [employee, setEmployee] = React.useState(initialValues);
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -25,7 +27,12 @@ const CreateEmployeeModal = (props) => {
         }))
     }
 
+    const setInitialValues = () => {
+        setEmployee(initialValues);
+    }
+
     const toggle = () => {
+        setInitialValues();
         setIsModalOpen(currentIsModalOpen => !currentIsModalOpen);
     }
 

@@ -36,7 +36,7 @@ const EmployeeListPage = () => {
                 <CardText tag="div">
                     {employees.length > 0 ?
                         <EmployeesTable>
-                            {employees.map(employee => <EmployeeRow employee={employee} readAllEmployees={apiReadAllEmployees} deleteEmployee={apiDeleteEmployee} />)}
+                            {employees.map(employee => <EmployeeRow key={employee.id} employee={employee} readAllEmployees={apiReadAllEmployees} deleteEmployee={apiDeleteEmployee} />)}
                         </EmployeesTable> :
                         <NoEmployeesText />
                     }
@@ -52,7 +52,7 @@ const EmployeeRow = (props) => {
             <th scope="row">{props.employee.id}</th>
             <td>{props.employee.firstName}</td>
             <td>{props.employee.lastName}</td>
-            <td>{props.employee.dateOfBirth}</td>
+            <td>{new Date(props.employee.dateOfBirth).toLocaleDateString()}</td>
             <td>{props.employee.companyId}</td>
             <td className="table-buttons">
                 <EditEmployeeModal

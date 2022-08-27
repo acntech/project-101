@@ -10,7 +10,7 @@ const EditCompanyModal = (props) => {
         orgNr: '',
         companyName: ''
     });
-    const [isModalOpen, setIsModalOpen] = React.useState('');
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
     
     const handleChange = (event) => {
         const name = event.target.name;
