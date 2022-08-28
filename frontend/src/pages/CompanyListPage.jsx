@@ -1,7 +1,6 @@
 import React from 'react';
-import { FaBuilding, FaSyncAlt } from 'react-icons/fa';
-import { Button, Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
-import CreateCompanyModal from '../containers/CreateCompanyModal';
+import {FaBuilding, FaSyncAlt} from 'react-icons/fa';
+import {Button, Card, CardBody, CardText, CardTitle, Table} from 'reactstrap';
 import DeleteButton from '../containers/DeleteButton';
 import EditCompanyModal from '../containers/EditCompanyModal';
 import CompaniesApi from '../services/CompaniesApi';
@@ -31,7 +30,6 @@ const CompanyListPage = () => {
                 <CardTitle tag="h3"><FaBuilding />List of companies</CardTitle>
                 <div className="card-action">
                     <Button color="secondary" onClick={apiReadAllCompanies}><FaSyncAlt /></Button>
-                    <CreateCompanyModal onCreated={apiReadAllCompanies} />
                 </div>
                 <CardText tag="div">
                     {companies.length > 0 ?

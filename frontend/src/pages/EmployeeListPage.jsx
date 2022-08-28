@@ -1,34 +1,28 @@
 import React from 'react';
-import {FaBroom, FaSyncAlt, FaUserTie} from 'react-icons/fa';
-import {useDispatch, useSelector} from 'react-redux';
-import { Button, Card, CardBody, CardText, CardTitle, Table } from 'reactstrap';
+import {FaSyncAlt, FaUserTie} from 'react-icons/fa';
+import {Button, Card, CardBody, CardText, CardTitle, Table} from 'reactstrap';
 import CreateEmployeeModal from '../containers/CreateEmployeeModal';
 import DeleteButton from '../containers/DeleteButton';
 import EditEmployeeModal from '../containers/EditEmployeeModal';
 import EmployeesApi from '../services/EmployeesApi';
-import {readAllEmployees, clearEmployeeList} from "../features/employeeSlice";
 
 const EmployeeListPage = () => {
-    const employees = useSelector((state) => state.employees);
-    const dispatch = useDispatch();
+    const [employees, setEmployees] = React.useState([]);
 
     React.useEffect(() => {
-        dispatch(readAllEmployees());
-    }, [dispatch]);
+        apiReadAllEmployees();
+    }, []);
 
-    const apiReadAllEmployees = () => {
-        dispatch(readAllEmployees());
+    const apiReadAllEmployees = async () => {
+        const existingEmployees = await EmployeesApi.readAllEmployees();
+        setEmployees(existingEmployees);
     }
 
     const apiDeleteEmployee = async (id) => {
         await EmployeesApi.deleteEmployeeById(id);
 
-        // Dispatch action to get an updated list of employees from the server
+        // Get an updated list of employees from the server
         apiReadAllEmployees();
-    }
-
-    const clear = () => {
-        dispatch(clearEmployeeList())
     }
 
     return (
@@ -37,7 +31,6 @@ const EmployeeListPage = () => {
                 <CardTitle tag="h3"><FaUserTie />List of employees</CardTitle>
                 <div className="card-action">
                     <Button color="secondary" onClick={apiReadAllEmployees}><FaSyncAlt /></Button>
-                    <Button color="info" title="Clear employee list" onClick={clear}><FaBroom /></Button>
                     <CreateEmployeeModal onCreated={apiReadAllEmployees} />
                 </div>
                 <CardText tag="div">
