@@ -3,7 +3,7 @@ import { FaPlus } from 'react-icons/fa';
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import CompaniesApi from '../services/CompaniesApi';
 import EmployeesApi from '../services/EmployeesApi';
-import CompaniesSelectOptions from '../components/CompaniesSelectOptions';
+import { CompaniesSelectOptions } from '../components/CompaniesSelectOptions';
 
 const initialValues = {
     firstName: '',

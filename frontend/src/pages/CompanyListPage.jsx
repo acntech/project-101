@@ -6,7 +6,7 @@ import DeleteButton from '../containers/DeleteButton';
 import EditCompanyModal from '../containers/EditCompanyModal';
 import CompaniesApi from '../services/CompaniesApi';
 
-const CompanyListPage = (props) => {
+const CompanyListPage = () => {
     const [companies, setCompanies] = React.useState([]);
 
     React.useEffect(() => {
