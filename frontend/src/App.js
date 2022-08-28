@@ -1,60 +1,46 @@
-import React, {Component} from 'react';
-import EmployeeListPage from './pages/EmployeeListPage';
-import CompanyListPage from './pages/CompanyListPage';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { UncontrolledAlert } from 'reactstrap';
 import NavigationAppBar from './components/NavigationAppBar';
-import {Route, Routes} from 'react-router-dom';
+import CompanyListPage from './pages/CompanyListPage';
+import EmployeeListPage from './pages/EmployeeListPage';
+import FrontPage from './pages/FrontPage';
 import NotFoundPage from './pages/NotFoundPage';
 import './styles/styles.css';
-import FrontPage from './pages/FrontPage';
-import {UncontrolledAlert} from 'reactstrap';
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            unhandledPromiseRejections: []
-        };
-    }
+const App = () => {
+    const [unhandledPromiseRejections, setUnhandledPromiseRejections] = React.useState([]);
 
-    componentDidMount() {
+    React.useEffect(() => {
         window.onunhandledrejection = (err) => {
-            this.setState((state) => {
-                const unhandledPromiseRejections = [ ...state.unhandledPromiseRejections, err.reason ];
+            setUnhandledPromiseRejections(currentUnhandledPromiseRejections => [...currentUnhandledPromiseRejections, err.reason]);
+        }
+    }, []);
 
-                return {
-                    unhandledPromiseRejections
-                };
-            });
-        };
-    }
+    return (
+        <>
+            <NavigationAppBar />
+            <main role="main" className="container">
+                {unhandledPromiseRejections.map((rejection, index) => <Alert rejection={rejection} id={index} />)}
+                <Routes>
+                    <Route exact path="/" element={<FrontPage/>} />
+                    <Route path="/employees" element={<EmployeeListPage/>} />
+                    <Route path="/companies" element={<CompanyListPage/>} />
+                    <Route element={<NotFoundPage/>} />
+                </Routes>
+            </main>
+        </>
+    );
+}
 
-    render() {
-        const unhandledPromiseRejections = this.state.unhandledPromiseRejections;
-        let alerts = unhandledPromiseRejections.map((rejection, index) => {
-            return (
-                <UncontrolledAlert key={index} color="danger">
-                    <h4 className="alert-heading">{rejection.message}</h4>
-                    <hr />
-                    <p className="mb-0">{rejection.response ? rejection.response.data.message : ''}</p>
-                </UncontrolledAlert>
-            );
-        });
-
-        return (
-            <>
-                <NavigationAppBar />
-                <main role="main" className="container">
-                    {alerts}
-                    <Routes>
-                        <Route exact path="/" element={<FrontPage/>} />
-                        <Route path="/employees" element={<EmployeeListPage/>} />
-                        <Route path="/companies" element={<CompanyListPage/>} />
-                        <Route element={<NotFoundPage/>} />
-                    </Routes>
-                </main>
-            </>
-        );
-    }
+const Alert = ({rejection, id}) => {
+    return (
+        <UncontrolledAlert key={id} color="danger">
+            <h4 className="alert-heading">{rejection.message}</h4>
+            <hr />
+            <p className="mb-0">{rejection.response ? rejection.response.data.message : ''}</p>
+        </UncontrolledAlert>
+    );
 }
 
 export default App;

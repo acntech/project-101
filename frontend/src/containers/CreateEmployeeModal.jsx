@@ -1,133 +1,110 @@
-import React, { Component } from 'react';
-import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import React from 'react';
 import { FaPlus } from 'react-icons/fa';
-import EmployeesApi from '../services/EmployeesApi';
-import PropTypes from 'prop-types';
+import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import CompaniesApi from '../services/CompaniesApi';
+import EmployeesApi from '../services/EmployeesApi';
+import { CompaniesSelectOptions } from '../components/CompaniesSelectOptions';
 
-class CreateEmployeeModal extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            firstName: '',
-            lastName: '',
-            dateOfBirth: '',
-            companyId: '',
-            companies: [],
-            modal: false
-        };
+const initialValues = {
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    companyId: ''
+};
 
-        this.handleChange = this.handleChange.bind(this);
-        this.toggle = this.toggle.bind(this);
-        this.apiCreateEmployee = this.apiCreateEmployee.bind(this);
-    }
+const CreateEmployeeModal = (props) => {
+    const [companies, setCompanies] = React.useState([]);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    
+    const [employee, setEmployee] = React.useState(initialValues);
 
-    handleChange(event) {
+    const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        this.setState({ [ name ]: value });
+        setEmployee(currentEmployee => ({
+            ...currentEmployee,
+            [name]: value
+        }))
     }
 
-    toggle() {
-        this.setState((prevState) => ({
-            modal: !prevState.modal
-        }));
+    const setInitialValues = () => {
+        setEmployee(initialValues);
     }
 
-    componentDidMount() {
-        this.apiReadAllCompanies();
+    const toggle = () => {
+        setInitialValues();
+        setIsModalOpen(currentIsModalOpen => !currentIsModalOpen);
     }
 
-    async apiCreateEmployee() {
-        const employee = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            dateOfBirth: this.state.dateOfBirth,
-            companyId: this.state.companyId
-        };
+    React.useEffect(() => {
+        apiReadAllCompanies();
+    }, []);
+
+    const apiCreateEmployee = async () => {
         await EmployeesApi.createNewEmployee(employee);
 
         // Inform parent component that new employee has been created, if onCreated() defined in props
-        if (typeof this.props.onCreated === 'function') {
-            this.props.onCreated();
+        if (typeof props.onCreated === 'function') {
+            props.onCreated();
         }
 
-        this.toggle();
+        toggle();
     }
 
-    async apiReadAllCompanies() {
+    const apiReadAllCompanies = async () => {
         const companies = await CompaniesApi.readAllCompanies();
-        this.setState({ companies: companies });
-    }
+        setCompanies(companies);
+    };
 
-    render() {
-        const companiesSelectOptions = this.state.companies.map((company) => {
-            return (
-                <option key={company.id} value={company.id}>{company.companyName}</option>
-            );
-        });
-        return (
-            <>
-                <Button color="primary" onClick={this.toggle}><FaPlus /> New employee</Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Create new employee</ModalHeader>
-                    <ModalBody>
-                        <Form>
-                            <FormGroup>
-                                <Label for="firstname">First name</Label>
-                                <Input
-                                    type="text"
-                                    name="firstName"
-                                    id="firstName"
-                                    placeholder="First name of the employee"
-                                    value={this.state.firstName}
-                                    onChange={this.handleChange} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="lastName">Last name</Label>
-                                <Input
-                                    type="text"
-                                    name="lastName"
-                                    id="lastName"
-                                    placeholder="Last name of the employee"
-                                    value={this.state.lastName}
-                                    onChange={this.handleChange} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="dateOfBirth">Date of birth</Label>
-                                <Input
-                                    type="date"
-                                    name="dateOfBirth"
-                                    id="dateOfBirth"
-                                    value={this.state.dateOfBirth}
-                                    onChange={this.handleChange} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="companySelect">Company</Label>
-                                <Input
-                                    type="select"
-                                    name="companyId"
-                                    id="companySelect"
-                                    onChange={this.handleChange}
-                                >
-                                    <option key="-1" value="">Select company</option>
-                                    {companiesSelectOptions}
-                                </Input>
-                            </FormGroup>
-                        </Form>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                        <Button color="primary" onClick={this.apiCreateEmployee} disabled={!this.state.companyId}>Create</Button>
-                    </ModalFooter>
-                </Modal>
-            </>
-        );
-    }
-}
-
-CreateEmployeeModal.propTypes = {
-    onCreated: PropTypes.func
+    return (
+        <>
+            <Button color="primary" onClick={toggle}><FaPlus />New employee</Button>
+            <Modal isOpen={isModalOpen} toggle={toggle}>
+                <ModalHeader toggle={toggle}>Create new employee</ModalHeader>
+                <ModalBody>
+                    <Form>
+                        <FormGroup>
+                            <Label for="firstname">First name</Label>
+                            <Input
+                                type="text"
+                                name="firstName"
+                                id="firstName"
+                                placeholder="First name of the employee"
+                                value={employee.firstName}
+                                onChange={handleChange} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="lastName">Last name</Label>
+                            <Input
+                                type="text"
+                                name="lastName"
+                                id="lastName"
+                                placeholder="Last name of the employee"
+                                value={employee.lastName}
+                                onChange={handleChange} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="dateOfBirth">Date of birth</Label>
+                            <Input
+                                type="date"
+                                name="dateOfBirth"
+                                id="dateOfBirth"
+                                value={employee.dateOfBirth}
+                                onChange={handleChange} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="companySelect">Company</Label>
+                            <CompaniesSelectOptions companies={companies} handleChange={handleChange}/>
+                        </FormGroup>
+                    </Form>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="secondary" onClick={toggle}>Cancel</Button>
+                    <Button color="primary" onClick={apiCreateEmployee} disabled={!employee.companyId}>Create</Button>
+                </ModalFooter>
+            </Modal>
+        </>
+    );
 };
 
 export default CreateEmployeeModal;
