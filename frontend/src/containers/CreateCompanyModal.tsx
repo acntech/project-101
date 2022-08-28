@@ -1,124 +1,91 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-
-import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import React from 'react';
 import { FaPlus } from 'react-icons/fa';
+import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import CompaniesApi from '../services/CompaniesApi';
 
-import { createNewCompany, createNewCompanyByOrgnr } from '../store/actions/companies-actions';
-import { Company } from '../types/company';
-import { RootStateType } from '../types/store';
+const CreateCompanyModal = (props) => {
+    const [orgNr, setOrgNr] = React.useState('');
+    const [companyName, setCompanyName] = React.useState('');
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-interface OwnProps {
-    onCreated?: () => void;
-}
+    const handleOrgNrChange = (event) => {
+        setOrgNr(event.currentTarget.value);
+    };
 
-interface State {
-    orgNr: string;
-    companyName: string;
-    modal: boolean;
-}
-
-type Props = ReturnType<typeof mapDispatchToProps> & OwnProps;
-
-class CreateCompanyModal extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            orgNr: '',
-            companyName: '',
-            modal: false
-        };
-
-        this.handleCompanyNameChange = this.handleCompanyNameChange.bind(this);
-        this.handleOrgNrChange = this.handleOrgNrChange.bind(this);
-        this.toggle = this.toggle.bind(this);
-        this.apiCreateCompany = this.apiCreateCompany.bind(this);
+    const handleCompanyNameChange = (event) => {
+        setCompanyName(event.currentTarget.value);
     }
 
-    handleCompanyNameChange(event: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({ companyName: event.target.value });
+    const toggle = () => {
+        setInitialValues();
+
+        setIsModalOpen(currentIsModalOpen => !currentIsModalOpen);
     }
 
-    handleOrgNrChange(event: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({ orgNr: event.target.value });
+    const setInitialValues = () => {
+        setOrgNr('');
+        setCompanyName('')
     }
 
-    toggle() {
-        this.setState((prevState) => ({
-            modal: !prevState.modal
-        }));
-    }
-
-    async apiCreateCompany() {
-        const company: Company = {
-            id: '',
-            orgNr: this.state.orgNr,
-            companyName: this.state.companyName
+    const apiCreateCompany = async () => {
+        const company = {
+            orgNr: orgNr,
+            companyName: companyName
         };
 
         if (company.companyName) {
-            this.props.createCompany(company);
+            await CompaniesApi.createNewCompany(company);
         } else {
-            this.props.createCompanyByOrgNr(company.orgNr);
+            await CompaniesApi.createNewCompanyByOrgnr(company.orgNr);
         }
 
-        if (typeof this.props.onCreated === 'function') {
-            this.props.onCreated();
+        // Inform parent component that new company has been created, if onCreated() defined in props
+        if (typeof props.onCreated === 'function') {
+            props.onCreated();
         }
 
-        this.toggle();
+        toggle();
     }
 
-    render() {
-        return (
-            <>
-                <Button color="primary" onClick={this.toggle}><FaPlus /> New company</Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Create new company</ModalHeader>
-                    <ModalBody>
-                        <Form>
-                            <FormGroup>
-                                <Label for="orgNr">Orgnr</Label>
-                                <Input
-                                    type="text"
-                                    name="orgNr"
-                                    id="orgNr"
-                                    placeholder="Valid orgNr, 9 digits"
-                                    value={this.state.orgNr}
-                                    onChange={this.handleOrgNrChange} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="orgNr">Name</Label>
-                                <Input
-                                    type="text"
-                                    name="companyName"
-                                    id="companyName"
-                                    placeholder="Fancy name of your company"
-                                    value={this.state.companyName}
-                                    onChange={this.handleCompanyNameChange} />
-                                <FormText color="muted">
-                                    If you leave this field empty we will lookup company with orgNr in Brreg
-                                </FormText>
-                            </FormGroup>
-                        </Form>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                        <Button color="primary" onClick={this.apiCreateCompany}>Create</Button>
-                    </ModalFooter>
-                </Modal>
-            </>
-        );
-    }
+    return (
+        <>
+            <Button color="primary" onClick={toggle}><FaPlus />New company</Button>
+            <Modal isOpen={isModalOpen} toggle={toggle}>
+                <ModalHeader toggle={toggle}>Create new company</ModalHeader>
+                <ModalBody>
+                    <Form>
+                        <FormGroup>
+                            <Label for="orgNr">Orgnr</Label>
+                            <Input
+                                type="text"
+                                name="orgNr"
+                                id="orgNr"
+                                placeholder="Valid orgNr, 9 digits"
+                                value={orgNr}
+                                onChange={handleOrgNrChange} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="orgNr">Name</Label>
+                            <Input
+                                type="text"
+                                name="companyName"
+                                id="companyName"
+                                placeholder="Fancy name of your company"
+                                value={companyName}
+                                onChange={handleCompanyNameChange} />
+                            <FormText color="muted">
+                                If you leave this field empty we will lookup company with orgNr in Brreg
+                            </FormText>
+                        </FormGroup>
+                    </Form>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="secondary" onClick={toggle}>Cancel</Button>
+                    <Button color="primary" onClick={apiCreateCompany}>Create</Button>
+                </ModalFooter>
+            </Modal>
+        </>
+    );
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<RootStateType, undefined, AnyAction>) => ({
-    createCompany: (company: Company) => dispatch(createNewCompany(company)),
-    createCompanyByOrgNr: (orgNr: string) => dispatch(createNewCompanyByOrgnr(orgNr))
-});
-
-const CreateCompanyModalConnected = connect(null, mapDispatchToProps)(CreateCompanyModal);
-
-export { CreateCompanyModalConnected, CreateCompanyModal };
+export default CreateCompanyModal;

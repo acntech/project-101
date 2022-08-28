@@ -23,8 +23,8 @@ public class EmployeeRepositoryTest {
 
     @Test
     void save() {
-        final Employee employee = new Employee("Ken", "Guru", LocalDate.of(1982, 1, 1));
-        final Employee savedEmployee = repository.save(employee);
+        final var employee = new Employee("Ken", "Guru", LocalDate.of(1982, 1, 1));
+        final var savedEmployee = repository.save(employee);
         assertThat(savedEmployee.getId()).isNotNull();
         assertThat(savedEmployee.getFirstName()).isEqualTo(employee.getFirstName());
         assertThat(savedEmployee.getLastName()).isEqualTo(employee.getLastName());

@@ -30,10 +30,10 @@ class CompanyServiceTest {
 
     @Test
     void save() {
-        final Company company = new Company("CompanyName", "123456789");
+        final var company = new Company("CompanyName", "123456789");
         when(companyRepository.save(company)).thenReturn(company);
 
-        final Company savedCompany = companyService.save(company);
+        final var savedCompany = companyService.save(company);
 
         assertThat(savedCompany.getCompanyName()).isEqualTo(company.getCompanyName());
         assertThat(savedCompany.getOrgNr()).isEqualTo(company.getOrgNr());
@@ -41,13 +41,13 @@ class CompanyServiceTest {
 
     @Test
     void saveOrgNr() {
-        String orgNr = "123456789";
-        String companyName = "CompanyName";
-        final Company company = new Company(companyName, orgNr);
+        var orgNr = "123456789";
+        var companyName = "CompanyName";
+        final var company = new Company(companyName, orgNr);
         when(brregRestClient.lookupOrganizationName(orgNr)).thenReturn(companyName);
         when(companyRepository.save(any(Company.class))).thenReturn(company);
 
-        final Company savedCompany = companyService.save(orgNr);
+        final var savedCompany = companyService.save(orgNr);
 
         assertThat(savedCompany.getOrgNr()).isEqualTo(orgNr);
         assertThat(savedCompany.getCompanyName()).isEqualTo(companyName);
@@ -55,10 +55,10 @@ class CompanyServiceTest {
 
     @Test
     void findById() {
-        final Company company = new Company("CompanyName", "123456789");
+        final var company = new Company("CompanyName", "123456789");
         when(companyRepository.findById(1L)).thenReturn(Optional.of(company));
 
-        final Company foundCompany = companyService.findById(1L).get();
+        final var foundCompany = companyService.findById(1L).get();
 
         assertThat(foundCompany.getCompanyName()).isEqualTo(company.getCompanyName());
         assertThat(foundCompany.getOrgNr()).isEqualTo(company.getOrgNr());
@@ -66,11 +66,11 @@ class CompanyServiceTest {
 
     @Test
     void findAll() {
-        final Company acme = new Company("ACME", "123456789");
-        final Company umbrella = new Company("Umbrella", "666666666");
+        final var acme = new Company("ACME", "123456789");
+        final var umbrella = new Company("Umbrella", "666666666");
         when(companyRepository.findAll()).thenReturn(Arrays.asList(acme, umbrella));
 
-        List<Company> companies = companyService.findAll();
+        var companies = companyService.findAll();
 
         assertThat(companies).hasSize(2);
         assertThat(companies).contains(acme, umbrella);

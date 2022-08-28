@@ -1,8 +1,5 @@
 export interface Company {
     id: string;
-    companyName: string;
     orgNr: string;
+    companyName: string;
 }
-
-export type CompaniesState = Company[];
-export type CompanyState = Company;
