@@ -103,8 +103,8 @@ public class CompanyResource {
 
         if (optionalCompany.isPresent()) {
             Company existingCompany = optionalCompany.get();
-            existingCompany.setCompanyName(companyDto.getCompanyName());
-            existingCompany.setOrgNr(companyDto.getOrgNr());
+            existingCompany.setCompanyName(companyDto.companyName());
+            existingCompany.setOrgNr(companyDto.orgNr());
 
             Company saved = companyService.save(existingCompany);
 
