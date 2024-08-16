@@ -101,7 +101,7 @@ class EmployeeResourceIT {
         var entity = new HttpEntity<>(kenDto, new HttpHeaders());
 
         var response = testRestTemplate.exchange(
-                TestUtil.createURL(port, "/employees/"),
+                TestUtil.createURL(port, "/employees"),
                 HttpMethod.POST,
                 entity,
                 ResponseEntity.class
