@@ -1,23 +1,5 @@
 /** TODO when everything is done, this test can test your employee endpoints. It will probably not compile due to naming. Fix as needed
- * package no.acntech.project101.web.employee.resources;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-
-import org.assertj.core.groups.Tuple;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+package no.acntech.project101.web.employee.resources;
 
 import no.acntech.project101.Project101Application;
 import no.acntech.project101.company.Company;
@@ -25,7 +7,24 @@ import no.acntech.project101.company.service.CompanyService;
 import no.acntech.project101.employee.Employee;
 import no.acntech.project101.employee.service.EmployeeService;
 import no.acntech.project101.web.TestUtil;
-import no.acntech.project101.web.employee.resources.EmployeeDto;
+import org.assertj.core.groups.Tuple;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,29 +44,30 @@ class EmployeeResourceIT {
     @Autowired
     private CompanyService companyService;
 
+
     @Test
     void findAll() {
-        final Company acme = companyService.save(new Company("ACME", "123456789"));
-        final Employee ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        final var acme = companyService.save(new Company("ACME", "123456789"));
+        final var ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
         ken.setCompany(acme);
-        final Employee tor = new Employee("Tor", "Divel", LocalDate.of(1994, 10, 1));
+        final var tor = new Employee("Tor", "Divel", LocalDate.of(1994, 10, 1));
         tor.setCompany(acme);
 
         employeeService.save(ken);
         employeeService.save(tor);
 
-        ResponseEntity<EmployeeDto[]> response = testRestTemplate.exchange(
+        var response = testRestTemplate.exchange(
                 TestUtil.createURL(port, "/employees"),
                 HttpMethod.GET,
                 new HttpEntity<>(null, new HttpHeaders()),
                 EmployeeDto[].class
         );
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        List<EmployeeDto> employees = Arrays.asList(response.getBody());
+        var employees = Arrays.asList(response.getBody());
 
         assertThat(employees)
                 .isNotEmpty()
-                .extracting(EmployeeDto::getFirstName, EmployeeDto::getLastName, EmployeeDto::getDateOfBirth)
+                .extracting(EmployeeDto::firstName, EmployeeDto::lastName, EmployeeDto::dateOfBirth)
                 .contains(
                         Tuple.tuple(ken.getFirstName(), ken.getLastName(), ken.getDateOfBirth()),
                         Tuple.tuple(tor.getFirstName(), tor.getLastName(), tor.getDateOfBirth())
@@ -76,38 +76,38 @@ class EmployeeResourceIT {
 
     @Test
     void findById() {
-        final Company acme = companyService.save(new Company("ACME", "123456789"));
+        final var acme = companyService.save(new Company("ACME", "123456789"));
 
-        final Employee ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        final var ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
         ken.setCompany(acme);
-        final Employee savedKen = employeeService.save(ken);
+        final var savedKen = employeeService.save(ken);
 
 
-        ResponseEntity<EmployeeDto> response = testRestTemplate.exchange(
+        var response = testRestTemplate.exchange(
                 TestUtil.createURL(port, "/employees/" + savedKen.getId()),
                 HttpMethod.GET,
                 new HttpEntity<>(null, new HttpHeaders()),
                 EmployeeDto.class
         );
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        EmployeeDto employeeDto = response.getBody();
+        var employeeDto = response.getBody();
 
 
-        assertThat(employeeDto.getDateOfBirth()).isEqualTo(ken.getDateOfBirth());
-        assertThat(employeeDto.getFirstName()).isEqualTo(ken.getFirstName());
-        assertThat(employeeDto.getLastName()).isEqualTo(ken.getLastName());
+        assertThat(employeeDto.dateOfBirth()).isEqualTo(ken.getDateOfBirth());
+        assertThat(employeeDto.firstName()).isEqualTo(ken.getFirstName());
+        assertThat(employeeDto.lastName()).isEqualTo(ken.getLastName());
     }
 
     @Test
     void createEmployee() {
-        final Company acme = companyService.save(new Company("ACME", "123456789"));
+        final var acme = companyService.save(new Company("ACME", "123456789"));
 
-        final EmployeeDto kenDto = new EmployeeDto(null, "Ken", "Guru", LocalDate.of(1994, 10, 1), acme.getId());
+        final var kenDto = new EmployeeDto(null, "Ken", "Guru", LocalDate.of(1994, 10, 1), acme.getId());
 
-        HttpEntity<EmployeeDto> entity = new HttpEntity<>(kenDto, new HttpHeaders());
+        var entity = new HttpEntity<>(kenDto, new HttpHeaders());
 
-        ResponseEntity response = testRestTemplate.exchange(
-                TestUtil.createURL(port, "/employees/"),
+        var response = testRestTemplate.exchange(
+                TestUtil.createURL(port, "/employees"),
                 HttpMethod.POST,
                 entity,
                 ResponseEntity.class
@@ -118,12 +118,12 @@ class EmployeeResourceIT {
 
     @Test
     void deleteEmployee() {
-        final Company acme = companyService.save(new Company("ACME", "123456789"));
-        final Employee ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        final var acme = companyService.save(new Company("ACME", "123456789"));
+        final var ken = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
         ken.setCompany(acme);
-        final Employee savedKen = employeeService.save(ken);
+        final var savedKen = employeeService.save(ken);
 
-        ResponseEntity response = testRestTemplate.exchange(
+        var response = testRestTemplate.exchange(
                 TestUtil.createURL(port, "/employees/" + savedKen.getId()),
                 HttpMethod.DELETE,
                 new HttpEntity<>(null, new HttpHeaders()),
@@ -132,4 +132,4 @@ class EmployeeResourceIT {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
     }
 }
-*/
+**/

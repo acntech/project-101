@@ -32,11 +32,11 @@ Base Url: `http://localhost:8080`
 # Testing APIs with Postman
 To quickly get started with testing APIs mentioned above you can import predefined Postman collections stored in this repository, see [postman](postman) folder.
 
-1. Create new Postman `Workspace` with name `Accenture IES project-101`
+1. Create new Postman `Workspace` with name `Accenture SE project-101`
 2. Click `Import` button to the top left > `Import Folder` > select [postman](postman) folder 
 3. Select `localhost` in the Environment dropdown to the top right
 
-# Testing APIs with Swagger
+# Testing APIs with Open API (Swagger)
 Swagger can be accessed from localhost:8080/swagger-ui.html
 
 1. All available APIs of companies services can be accssed via http://localhost:8080/swagger-ui.html#/company-resource
