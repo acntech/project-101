@@ -27,6 +27,6 @@ public class BrregRestClient {
                 .toUri();
 
         final BrregRespons brregRespons = restTemplate.getForEntity(uri, BrregRespons.class).getBody();
-        return brregRespons.getData().getName();
+        return brregRespons.data().name();
     }
 }
