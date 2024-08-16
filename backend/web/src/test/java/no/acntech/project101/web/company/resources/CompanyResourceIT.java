@@ -89,7 +89,7 @@ class CompanyResourceIT {
         var entity = new HttpEntity<>(company, new HttpHeaders());
 
         var response = testRestTemplate.exchange(
-                TestUtil.createURL(port, "/companies/"),
+                TestUtil.createURL(port, "/companies"),
                 HttpMethod.POST,
                 entity,
                 ResponseEntity.class
