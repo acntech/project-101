@@ -1,33 +1,27 @@
 package no.acntech.project101.company;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import org.w3c.dom.css.Counter;
 
-@Entity
 public class Company {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "COMPANY_NAME")
     private String companyName;
-
-    @Column(name = "ORG_NR")
     private String orgNr;
 
-
-    //TODO add mapping for list of employees if you have time
+    private static Long counter;
 
     public Company() {
     }
 
     public Company(final String companyName, final String orgNr) {
+        if(counter == null) {
+            counter = 0L;
+        }
+        this.id = counter;
         this.companyName = companyName;
         this.orgNr = orgNr;
+
+        counter++;
     }
 
 

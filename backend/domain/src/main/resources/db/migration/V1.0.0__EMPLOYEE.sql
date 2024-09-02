@@ -1,1 +1,0 @@
--- TODO Create a table for Employee containing an ID, firstname, lastname and date of birth

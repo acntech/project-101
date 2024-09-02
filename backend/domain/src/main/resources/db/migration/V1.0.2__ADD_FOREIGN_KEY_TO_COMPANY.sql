@@ -1,1 +1,0 @@
--- TODO Add a foreign key column to employee-table refrencing company-table

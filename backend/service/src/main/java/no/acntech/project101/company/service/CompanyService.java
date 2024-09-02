@@ -6,43 +6,35 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import no.acntech.project101.company.Company;
-import no.acntech.project101.company.consumer.BrregRestClient;
-import no.acntech.project101.company.repository.CompanyRepository;
+import org.springframework.web.server.MethodNotAllowedException;
 
 @Service
 public class CompanyService {
 
-    private final CompanyRepository companyRepository;
-    private final BrregRestClient brregRestClient;
+    private final List<Company> companyList;
 
-    public CompanyService(final CompanyRepository companyRepository,
-                          final BrregRestClient brregRestClient) {
-        this.companyRepository = companyRepository;
-        this.brregRestClient = brregRestClient;
+    public CompanyService(List<Company> companyList) {
+        this.companyList = companyList;
     }
 
     public Company save(Company company) {
-        return companyRepository.save(company);
+        companyList.add(company);
+        return company;
     }
 
     public Company save(final String organizationNumber) {
-        final var organizationName = brregRestClient.lookupOrganizationName(organizationNumber);
-
-        final var company = new Company(organizationName, organizationNumber);
-        return save(company);
+        throw new MethodNotAllowedException("Not yet supported!", null);
     }
 
     public List<Company> findAll() {
-        return companyRepository.findAll();
+        return companyList;
     }
 
     public Optional<Company> findById(Long id) {
-        return companyRepository.findById(id);
+        return companyList.stream().filter(c -> c.getId().equals(id)).findFirst();
     }
 
     public void delete(Long id) {
-        if (companyRepository.existsById(id)) {
-            companyRepository.deleteById(id);
-        }
+        companyList.removeIf(c -> c.getId().equals(id));
     }
 }

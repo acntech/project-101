@@ -1,12 +1,8 @@
 package no.acntech.project101.employee.repository;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 
-import no.acntech.project101.company.config.CompanyDatabaseConfig;
 import no.acntech.project101.employee.Employee;
-import no.acntech.project101.employee.config.EmployeeDatabaseConfig;
 
 //@DataJpaTest
 //@Import({EmployeeDatabaseConfig.class, CompanyDatabaseConfig.class})
